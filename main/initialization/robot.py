@@ -6,7 +6,7 @@ from wpilib import (
     PS4Controller,
     Joystick,
     MotorControllerGroup)
-from rev import (CANSparkMax, CANSparkBase, MotorType)
+from rev import (CANSparkMax, MotorType)
 import constants
 
 class MyRobot(TimedRobot):
