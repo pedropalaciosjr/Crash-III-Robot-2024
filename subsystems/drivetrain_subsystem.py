@@ -6,7 +6,7 @@ class DifferentialDriveSubsystem():
         pass
     
     def ps4_drive(self, driver_controller):
-        event.BooleanEvent(drive.arcadeDrive(driver_controller.getLeftX), driver_controller.DIFFERENTIAL_DRIVE_SPEED)
+        event.BooleanEvent(drive.arcadeDrive(driver_controller.getLeftX), driver_controller.DIFFERENTIAL_DRIVE_SPEED, bool=True)
 
     def xbox_drive(self, driver_controller):
-        event.BooleanEvent(drive.arcadeDrive(self.driver_joystick))
+        event.BooleanEvent(drive.arcadeDrive(driver_controller.getLeftX), driver_controller.DIFFERENTIAL_DRIVE_SPEED, bool=True)
