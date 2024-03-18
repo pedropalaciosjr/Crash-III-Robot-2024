@@ -10,11 +10,11 @@ from wpilib import (
     CameraServer,
     event)
 from rev import (CANSparkMax, MotorType)
-import constants
+from constants import Constants as const
+from subsystems import drivetrain_subsystem
 
 class MyRobot(TimedRobot):
     def __robotInit__(self):
-        const = constants.Constants
         def robot_base():
 
             LEFT_FRONT, LEFT_REAR = CANSparkMax(const.LEFT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.LEFT_REAR_CAN_ID, MotorType.kBrushless)
@@ -75,7 +75,8 @@ class MyRobot(TimedRobot):
 
 
     def teleopPeriodic(self):
-        drivetrain_subsystem.ps4_drive() if drivetrain_subsystem.driver_controller_type == "PS4" else xbox_drive()
+        drive = drivetrain_subsystem.DifferentailDrive
+        drive.ps4_drive() if drivetrain_subsystem.driver_controller_type == "PS4" else drive.xbox_drive()
 
     def autonomousInit(self):
         global autonomous_start

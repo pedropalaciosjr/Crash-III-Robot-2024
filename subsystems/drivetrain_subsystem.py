@@ -1,10 +1,12 @@
+from wpilib import event, drive
+from constants import Constants as const
+
 class DifferentialDriveSubsystem():
     def __init__(self):
-        event.BooleanEvent(drive.arcadeDrive(self.driver_joystick))
         pass
     
     def ps4_drive(self):
-        pass
+        event.BooleanEvent(drive.arcadeDrive(self.driver_joystick), )
 
     def xbox_drive(self):
-        pass
+        event.BooleanEvent(drive.arcadeDrive(self.driver_joystick))
