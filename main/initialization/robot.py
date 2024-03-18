@@ -1,4 +1,10 @@
-from wpilib import (drive, SmartDashboard, Timer, TimedRobot)
+from wpilib import (
+    drive,
+    SmartDashboard,
+    Timer,
+    TimedRobot,
+    PS4Controller,
+    Joystick)
 from rev import (CANSparkMax, CANSparkBase, MotorType)
 import constants
 
@@ -42,8 +48,8 @@ class MyRobot(TimedRobot):
             CLIMBER.burnFlash()
         
         def joystick_init(driver_controller_type, operator_controller_type):
-            self.driver_joystick = wpilib.PS4Controller(0) if (driver_controller_type) == "PS4" else (wpilib.Joystick(0))
-            self.operator_joystick = wpilib.PS4Controller(1) if (operator_controller_type) == "PS4" else (wpilib.Joystick(1))
+            self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (Joystick(0))
+            self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (Joystick(1))
 
 
 
