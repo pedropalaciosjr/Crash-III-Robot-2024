@@ -1,8 +1,8 @@
-from wpilib import (drive, SmartDashboard, Timer)
+from wpilib import (drive, SmartDashboard, Timer, TimedRobot)
 from rev import (CANSparkMax, CANSparkBase, MotorType)
 import constants
 
-class MyRobot(wpilib.TimedRobot):
+class MyRobot(TimedRobot):
 
     def robotInit(self):
         def robot_base():
