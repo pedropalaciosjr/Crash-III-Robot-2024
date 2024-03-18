@@ -16,7 +16,7 @@ class MyRobot(wpilib.TimedRobot):
             CLIMBER = CANSparkMax(const.CLIMBER_CAN_ID, MotorType.kBrushless)
 
             LEFT_FRONT.setInverted(False)
-            
+            RIGHT_FRONT.setInverted(False)
     
             LEFT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
             LEFT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
@@ -29,8 +29,8 @@ class MyRobot(wpilib.TimedRobot):
 
             CLIMBER.setSmartCurrentLimit(const.CLIMBER_CURRENT)
 
-            LEFT_REAR.follow(LEFT_FRONT)
-            RIGHT_REAR.follow(RIGHT_FRONT)
+            LEFT_REAR.follow(LEFT_FRONT, bool=False)
+            RIGHT_REAR.follow(RIGHT_FRONT, bool=False)
 
             LEFT_FRONT.burnFlash()
             LEFT_REAR.burnFlash()
