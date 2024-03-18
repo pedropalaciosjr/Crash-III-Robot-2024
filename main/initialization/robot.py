@@ -64,7 +64,7 @@ class MyRobot(TimedRobot):
 
     def robotPeriodic(self):
         current_time = Timer.getFPGATimestamp()
-        SmartDashboard.putNumber("Current runtime for robot (s):", current_time)
+        SmartDashboard.putNumber(f"Robot Runtime (seconds): {current_time}")
 
 
 
