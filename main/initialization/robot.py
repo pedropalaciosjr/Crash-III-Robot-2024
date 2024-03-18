@@ -1,5 +1,5 @@
-from wpilib import drive, SmartDashboard, Timer
-from rev import CANSparkMax, CANSparkBase, MotorType
+from wpilib import (drive, SmartDashboard, Timer)
+from rev import (CANSparkMax, CANSparkBase, MotorType)
 import constants
 
 class MyRobot(wpilib.TimedRobot):
