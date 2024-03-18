@@ -4,13 +4,14 @@ from wpilib import (
     Timer,
     TimedRobot,
     PS4Controller,
-    Joystick)
+    Joystick,
+    MotorControllerGroup)
 from rev import (CANSparkMax, CANSparkBase, MotorType)
 import constants
 
 class MyRobot(TimedRobot):
 
-    def robotInit(self):
+    def __robotInit__(self):
         def robot_base():
             const = constants.Constants
 
@@ -20,6 +21,11 @@ class MyRobot(TimedRobot):
             LAUNCH_WHEEL, FEEDER_WHEEL, ROLLER_CLAW = CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, MotorType.kBrushless), CANSparkMax(const.FEEDER_WHEEL_CAN_ID, MotorType.kBrushless),\
                 CANSparkMax(const.ROLLER_CLAW_CAN_ID, MotorType.kBrushless)
             CLIMBER = CANSparkMax(const.CLIMBER_CAN_ID, MotorType.kBrushless)
+
+            LEFT = drive.MotorControllerGroup(LEFT_FRONT, LEFT_REAR)
+            RIGHT = drive.MotorControllerGroup(RIGHT_FRONT, RIGHT_REAR)
+            
+            DIFFERENTIAL_DRIVE = drive.DifferentialDrive(LEFT, RIGHT)
 
             LEFT_FRONT.setInverted(False)
             RIGHT_FRONT.setInverted(False)
