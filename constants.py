@@ -30,7 +30,7 @@ class Constants():
 
         CLIMBER_CURRENT, CLIMBER_SPEED = (100, 0)
 
-        driver_controller_type, operator_controller_type = "PS4", "PS4"
+        driver_controller_type, operator_controller_type = ("PS4", "PS4")
 
 
     
