@@ -11,9 +11,9 @@ class MyRobot(wpilib.TimedRobot):
             LEFT_FRONT, LEFT_REAR = CANSparkMax(const.LEFT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.LEFT_REAR_CAN_ID, MotorType.kBrushless)
             RIGHT_FRONT, RIGHT_REAR = CANSparkMax(const.RIGHT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.RIGHT_REAR_CAN_ID, MotorType.kBrushless)
 
-            LAUNCH_WHEEL, FEEDER_WHEEL, ROLLER_CLAW = CANSparkMax(5, MotorType.kBrushless), \
-            CANSparkMax(6, MotorType.kBrushless), CANSparkMax(7, MotorType.kBrushless)
-            CLIMBER = CANSparkMax(8, MotorType.kBrushless)
+            LAUNCH_WHEEL, FEEDER_WHEEL, ROLLER_CLAW = CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, MotorType.kBrushless), CANSparkMax(const.FEEDER_WHEEL_CAN_ID, MotorType.kBrushless),\
+                CANSparkMax(const.ROLLER_CLAW_CAN_ID, MotorType.kBrushless)
+            CLIMBER = CANSparkMax(const.CLIMBER_CAN_ID, MotorType.kBrushless)
 
             LEFT_FRONT.CANSparkBase.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
             LEFT_REAR.CANSparkBase.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
