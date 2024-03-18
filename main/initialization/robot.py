@@ -8,7 +8,7 @@ class MyRobot(wpilib.TimedRobot):
         def robot_base():
             const = constants.Constants
 
-            LEFT_FRONT, LEFT_REAR = CANSparkMax(1, MotorType.kBrushless), CANSparkMax(2, MotorType.kBrushless)
+            LEFT_FRONT, LEFT_REAR = CANSparkMax(LEFT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(2, MotorType.kBrushless)
             RIGHT_FRONT, RIGHT_REAR = CANSparkMax(3, MotorType.kBrushless), CANSparkMax(4, MotorType.kBrushless)
 
             LAUNCH_WHEEL, FEEDER_WHEEL, ROLLER_CLAW = CANSparkMax(5, MotorType.kBrushless), CANSparkMax(6, MotorType.kBrushless), \
@@ -67,5 +67,5 @@ class MyRobot(wpilib.TimedRobot):
 
         time_elapsed = time_elapsed(autonomous_periodic, autonomous_start)
 
-        
+
         pass
