@@ -15,28 +15,31 @@ class MyRobot(wpilib.TimedRobot):
                 CANSparkMax(const.ROLLER_CLAW_CAN_ID, MotorType.kBrushless)
             CLIMBER = CANSparkMax(const.CLIMBER_CAN_ID, MotorType.kBrushless)
 
-            LEFT_FRONT.CANSparkBase.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-            LEFT_REAR.CANSparkBase.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-            RIGHT_FRONT.CANSparkBase.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-            RIGHT_REAR.CANSparkBase.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
+            LEFT_FRONT.setInverted(False)
+            
+    
+            LEFT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
+            LEFT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
+            RIGHT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
+            RIGHT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
 
-            LAUNCH_WHEEL.CANSparkBase.setSmartCurrentLimit(const.LAUNCH_WHEEL_CURRENT)
-            FEEDER_WHEEL.CANSparkBase.setSmartCurrentLimit(const.FEEDER_WHEEL_CURRENT)
-            ROLLER_CLAW.CANSparkBase.setSmartCurrentLimit(const.ROLLER_CLAW_CURRENT)
+            LAUNCH_WHEEL.setSmartCurrentLimit(const.LAUNCH_WHEEL_CURRENT)
+            FEEDER_WHEEL.setSmartCurrentLimit(const.FEEDER_WHEEL_CURRENT)
+            ROLLER_CLAW.setSmartCurrentLimit(const.ROLLER_CLAW_CURRENT)
 
-            CLIMBER.CANSparkBase.setSmartCurrentLimit(const.CLIMBER_CURRENT)
+            CLIMBER.setSmartCurrentLimit(const.CLIMBER_CURRENT)
 
-            LEFT_REAR.CANSparkBase.follow(LEFT_FRONT)
-            RIGHT_REAR.CANSparkBase.follow(RIGHT_FRONT)
+            LEFT_REAR.follow(LEFT_FRONT)
+            RIGHT_REAR.follow(RIGHT_FRONT)
 
-            LEFT_FRONT.CANSparkBase.burnFlash()
-            LEFT_REAR.CANSparkBase.burnFlash()
-            RIGHT_FRONT.CANSparkBase.burnFlash()
-            RIGHT_REAR.CANSparkBase.burnFlash()
-            LAUNCH_WHEEL.CANSparkBase.burnFlash()
-            FEEDER_WHEEL.CANSparkBase.burnFlash()
-            ROLLER_CLAW.CANSparkBase.burnFlash()
-            CLIMBER.CANSparkBase.burnFlash()
+            LEFT_FRONT.burnFlash()
+            LEFT_REAR.burnFlash()
+            RIGHT_FRONT.burnFlash()
+            RIGHT_REAR.burnFlash()
+            LAUNCH_WHEEL.burnFlash()
+            FEEDER_WHEEL.burnFlash()
+            ROLLER_CLAW.burnFlash()
+            CLIMBER.burnFlash()
         
         def joystick_init(driver_controller_type, operator_controller_type):
             self.driver_joystick = wpilib.PS4Controller(0) if (driver_controller_type) == "PS4" else (wpilib.Joystick(0))
