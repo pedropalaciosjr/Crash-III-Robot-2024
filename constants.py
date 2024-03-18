@@ -10,6 +10,8 @@ class Constants():
         global CLIMBER_CURRENT, CLIMBER_SPEED
         global LEFT_FRONT_SPEED, RIGHT_FRONT_SPEED
 
+        global driver_controller_type, operator_controller_type
+
         LEFT_FRONT_CAN_ID = 1
         LEFT_REAR_CAN_ID = 2
         RIGHT_FRONT_CAN_ID = 3
@@ -27,6 +29,8 @@ class Constants():
         LAUNCH_WHEEL_SPEED, FEEDER_WHEEL_SPEED, ROLLER_CLAW_SPEED = (0, 0, 0)
 
         CLIMBER_CURRENT, CLIMBER_SPEED = (100, 0)
+
+        driver_controller_type, operator_controller_type = "PS4", "PS4"
 
 
     
