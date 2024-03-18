@@ -7,15 +7,15 @@ from wpilib import (
     TimedRobot,
     PS4Controller,
     Joystick,
-    CameraServer)
+    CameraServer,
+    event)
 from rev import (CANSparkMax, MotorType)
 import constants
 
 class MyRobot(TimedRobot):
-
     def __robotInit__(self):
+        const = constants.Constants
         def robot_base():
-            const = constants.Constants
 
             LEFT_FRONT, LEFT_REAR = CANSparkMax(const.LEFT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.LEFT_REAR_CAN_ID, MotorType.kBrushless)
             RIGHT_FRONT, RIGHT_REAR = CANSparkMax(const.RIGHT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.RIGHT_REAR_CAN_ID, MotorType.kBrushless)
@@ -56,17 +56,15 @@ class MyRobot(TimedRobot):
             CLIMBER.burnFlash()
 
             CameraServer.launch("robot_vision.py:main")
-
-
         
-        def joystick_init(driver_controller_type, operator_controller_type):
+        def joystick_init(driver_controller_type = "null", operator_controller_type= "null" ):
             self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (Joystick(0))
             self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (Joystick(1))
 
 
 
         robot_base()
-        joystick_init("PS4", "PS4")
+        joystick_init(const.driver_controller_type, const.operator_controller_type)
 
     def robotPeriodic(self):
         current_time = Timer.getFPGATimestamp()
@@ -74,8 +72,10 @@ class MyRobot(TimedRobot):
 
 
 
+
+
     def teleopPeriodic(self):
-        pass
+        drivetrain_subsystem.ps4_drive() if drivetrain_subsystem.driver_controller_type == "PS4" else xbox_drive()
 
     def autonomousInit(self):
         global autonomous_start
