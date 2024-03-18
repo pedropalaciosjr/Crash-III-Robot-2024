@@ -1,3 +1,5 @@
+# Project started and written by Pedro Palacios Jr, Team 457.
+
 from wpilib import (
     drive,
     SmartDashboard,
@@ -5,7 +7,7 @@ from wpilib import (
     TimedRobot,
     PS4Controller,
     Joystick,
-    MotorControllerGroup)
+    CameraServer)
 from rev import (CANSparkMax, MotorType)
 import constants
 
@@ -52,6 +54,10 @@ class MyRobot(TimedRobot):
             FEEDER_WHEEL.burnFlash()
             ROLLER_CLAW.burnFlash()
             CLIMBER.burnFlash()
+
+            CameraServer.launch("robot_vision.py:main")
+
+
         
         def joystick_init(driver_controller_type, operator_controller_type):
             self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (Joystick(0))
