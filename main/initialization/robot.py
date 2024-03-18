@@ -10,7 +10,7 @@ from wpilib import (
     CameraServer,
     event)
 from rev import (CANSparkMax, MotorType)
-from constants import Constants as const
+from main.initialization.constants import Constants as const
 from subsystems import drivetrain_subsystem
 
 class MyRobot(TimedRobot):
