@@ -51,12 +51,21 @@ class MyRobot(wpilib.TimedRobot):
         current_time = Timer.getFPGATimestamp()
         SmartDashboard.putNumber("Current runtime for robot (s):", current_time)
 
+
+
     def teleopPeriodic(self):
         pass
 
     def autonomousInit(self):
+        global autonomous_start
         autonomous_start = Timer.getFPGATimestamp()
     
     def autonomousPeriodic(self):
         # Autonomous primary commands
+        autonomous_periodic = Timer.getFPGATimestamp()
+        time_elapsed = lambda final, init : final - init
+
+        time_elapsed = time_elapsed(autonomous_periodic, autonomous_start)
+
+        
         pass
