@@ -126,8 +126,7 @@ class MyRobot(TimedRobot):
 
     def teleopPeriodic(self):
         self.drive.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else self.drive.logitech_drive(self.driver_joystick)
-        
-        commands2.button.Trigger(drive.arcadeDrive(self.driver_joystick.getLeftY, self.driver_joystick.getRightX), commands2.onTrue())
+    
         if RobotState.isAutonomous():
             pass
 
