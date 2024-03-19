@@ -17,43 +17,43 @@ class MyRobot(TimedRobot):
     def __robotInit__(self):
         def robot_base():
 
-            LEFT_FRONT, LEFT_REAR = CANSparkMax(const.LEFT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.LEFT_REAR_CAN_ID, MotorType.kBrushless)
-            RIGHT_FRONT, RIGHT_REAR = CANSparkMax(const.RIGHT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.RIGHT_REAR_CAN_ID, MotorType.kBrushless)
+            self.LEFT_FRONT, self.LEFT_REAR = CANSparkMax(const.LEFT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.LEFT_REAR_CAN_ID, MotorType.kBrushless)
+            self.RIGHT_FRONT, self.RIGHT_REAR = CANSparkMax(const.RIGHT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.RIGHT_REAR_CAN_ID, MotorType.kBrushless)
 
-            LAUNCH_WHEEL, FEEDER_WHEEL, ROLLER_CLAW = CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, MotorType.kBrushless), CANSparkMax(const.FEEDER_WHEEL_CAN_ID, MotorType.kBrushless),\
+            self.LAUNCH_WHEEL, self.FEEDER_WHEEL, self.ROLLER_CLAW = CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, MotorType.kBrushless), CANSparkMax(const.FEEDER_WHEEL_CAN_ID, MotorType.kBrushless),\
                 CANSparkMax(const.ROLLER_CLAW_CAN_ID, MotorType.kBrushless)
-            CLIMBER = CANSparkMax(const.CLIMBER_CAN_ID, MotorType.kBrushless)
+            self.CLIMBER = CANSparkMax(const.CLIMBER_CAN_ID, MotorType.kBrushless)
 
-            LEFT = drive.MotorControllerGroup(LEFT_FRONT, LEFT_REAR)
-            RIGHT = drive.MotorControllerGroup(RIGHT_FRONT, RIGHT_REAR)
+            self.LEFT = drive.MotorControllerGroup(self.LEFT_FRONT, self.LEFT_REAR)
+            self.RIGHT = drive.MotorControllerGroup(self.RIGHT_FRONT, self.RIGHT_REAR)
             
-            DIFFERENTIAL_DRIVE = drive.DifferentialDrive(LEFT, RIGHT)
+            self.DIFFERENTIAL_DRIVE = drive.DifferentialDrive(self.LEFT, self.RIGHT)
 
-            LEFT_FRONT.setInverted(False)
-            RIGHT_FRONT.setInverted(False)
+            self.LEFT_FRONT.setInverted(False)
+            self.RIGHT_FRONT.setInverted(False)
     
-            LEFT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-            LEFT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-            RIGHT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-            RIGHT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
+            self.LEFT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
+            self.LEFT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
+            self.RIGHT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
+            self.RIGHT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
 
-            LAUNCH_WHEEL.setSmartCurrentLimit(const.LAUNCH_WHEEL_CURRENT)
-            FEEDER_WHEEL.setSmartCurrentLimit(const.FEEDER_WHEEL_CURRENT)
-            ROLLER_CLAW.setSmartCurrentLimit(const.ROLLER_CLAW_CURRENT)
+            self.LAUNCH_WHEEL.setSmartCurrentLimit(const.LAUNCH_WHEEL_CURRENT)
+            self.FEEDER_WHEEL.setSmartCurrentLimit(const.FEEDER_WHEEL_CURRENT)
+            self.ROLLER_CLAW.setSmartCurrentLimit(const.ROLLER_CLAW_CURRENT)
 
-            CLIMBER.setSmartCurrentLimit(const.CLIMBER_CURRENT)
+            self.CLIMBER.setSmartCurrentLimit(const.CLIMBER_CURRENT)
 
-            LEFT_REAR.follow(LEFT_FRONT, bool=False)
-            RIGHT_REAR.follow(RIGHT_FRONT, bool=False)
+            self.LEFT_REAR.follow(self.LEFT_FRONT, bool=False)
+            self.RIGHT_REAR.follow(self.RIGHT_FRONT, bool=False)
 
-            LEFT_FRONT.burnFlash()
-            LEFT_REAR.burnFlash()
-            RIGHT_FRONT.burnFlash()
-            RIGHT_REAR.burnFlash()
-            LAUNCH_WHEEL.burnFlash()
-            FEEDER_WHEEL.burnFlash()
-            ROLLER_CLAW.burnFlash()
-            CLIMBER.burnFlash()
+            self.LEFT_FRONT.burnFlash()
+            self.LEFT_REAR.burnFlash()
+            self.RIGHT_FRONT.burnFlash()
+            self.RIGHT_REAR.burnFlash()
+            self.LAUNCH_WHEEL.burnFlash()
+            self.FEEDER_WHEEL.burnFlash()
+            self.ROLLER_CLAW.burnFlash()
+            self.CLIMBER.burnFlash()
 
             CameraServer.launch("robot_vision.py:main")
         
