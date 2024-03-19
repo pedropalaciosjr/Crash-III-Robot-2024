@@ -15,6 +15,7 @@ from ..subsystems import drivetrain_subsystem
 
 class MyRobot(TimedRobot):
     def __robotInit__(self):
+        global sparkmax_safety
         def robot_base():
 
             self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(const.LEFT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.LEFT_REAR_CAN_ID, rev.MotorType.kBrushless)
@@ -90,6 +91,7 @@ class MyRobot(TimedRobot):
             SmartDashboard.putNumber("Launch Wheel Motor Temperature (F)", launch_wheel_temperature)
             SmartDashboard.putNumber("Feeder Wheel Motor Temperature (F)", feeder_wheel_temperature)
             SmartDashboard.putNumber("Roller Claw Motor Temperature (F)", roller_claw_temperature)
+            SmartDashboard.putNumber("Climber Motor Temperature (F)", climber_temperature)
 
             SmartDashboard.putBoolean("Left Front Brownout Detected:", left_front_brownout)
             SmartDashboard.putBoolean("Left Rear Brownout Detected:", left_rear_brownout)
@@ -100,6 +102,11 @@ class MyRobot(TimedRobot):
             SmartDashboard.putBoolean("Roller Claw Brownout Detected:", roller_claw_brownout)
             SmartDashboard.putBoolean("Climber Brownout Detected:", climber_brownout)
 
+            for state in brownout_faults:
+                if state:
+                    print("BROWNOUT DETECTED!")
+                    return
+
         robot_base()
         sparkmax_safety()
         joystick_init(const.driver_controller_type, const.operator_controller_type)
@@ -107,6 +114,8 @@ class MyRobot(TimedRobot):
     def robotPeriodic(self):
         current_time = Timer.getFPGATimestamp()
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
+
+        sparkmax_safety()
 
 
 
