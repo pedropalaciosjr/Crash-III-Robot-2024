@@ -20,6 +20,8 @@ class MyRobot(TimedRobot):
             self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(const.LEFT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.LEFT_REAR_CAN_ID, rev.MotorType.kBrushless)
             self.RIGHT_FRONT, self.RIGHT_REAR = rev.CANSparkMax(const.RIGHT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.RIGHT_REAR_CAN_ID, rev.MotorType.kBrushless)
 
+            self.SPARKMAX_CONTROLLERS = [self.LEFT_FRONT, self.LEFT_REAR, self.RIGHT_FRONT, self.RIGHT_REAR]
+
             self.LAUNCH_WHEEL, self.FEEDER_WHEEL, self.ROLLER_CLAW = rev.CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.FEEDER_WHEEL_CAN_ID, rev.MotorType.kBrushless),\
                 rev.CANSparkMax(const.ROLLER_CLAW_CAN_ID, rev.MotorType.kBrushless)
             self.CLIMBER = rev.CANSparkMax(const.CLIMBER_CAN_ID, rev.MotorType.kBrushless)
@@ -61,7 +63,25 @@ class MyRobot(TimedRobot):
             self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (Joystick(0))
             self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (Joystick(1))
 
+        def sparkmax_safety():
+            motor_temperatures = []
+            brownout_faults = []
+            for sparkmax in self.SPARKMAX_CONTROLLERS:
+                motor_temperatures.append((1.8 * sparkmax.getMotorTemperature()) + 32)
+                brownout_faults.append(sparkmax.getFault(0))
+            
+            left_front_motor_temperature, left_rear_motor_temperature, right_front_motor_temperature, right_rear_motor_temperature = motor_temperatures
+            left_front_brownout = 
+            SmartDashboard.putNumber(f"Left Front Motor Temperature (F) {left_front_motor_temperature}")
+            SmartDashboard.putNumber(f"Left Rear Motor Temperature (F) {left_rear_motor_temperature}")
+            SmartDashboard.putNumber(f"Right Front Motor Temperature (F) {right_front_motor_temperature}")
+            SmartDashboard.putNumber(f"Right Rear Motor Temperature (F) {right_rear_motor_temperature}")
 
+
+            SmartDashboard.putBoolean(f"Left Front Brownout Detected: {brownout_faults}")
+            SmartDashboard.putBoolean(f"Left Rear Brownout Detected: {True}")
+            SmartDashboard.putBoolean(f"Right Front Brownout Detected: {True}")
+            SmartDashboard.putBoolean(f"Right Rear Brownout Detected: {True}")
 
         robot_base()
         joystick_init(const.driver_controller_type, const.operator_controller_type)
