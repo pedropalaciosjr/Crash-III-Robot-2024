@@ -8,13 +8,16 @@ from wpilib import (
     PS4Controller,
     Joystick,
     CameraServer,
-    event)
+    event,
+    RobotState,
+    reportwarning
+    )
 import rev
 from . import constants as const
 from ..subsystems import drivetrain_subsystem
 
 class MyRobot(TimedRobot):
-    def __robotInit__(self):
+    def robotInit(self):
         global sparkmax_safety
         def robot_base():
 
@@ -104,26 +107,29 @@ class MyRobot(TimedRobot):
 
             for state in brownout_faults:
                 if state:
-                    print("BROWNOUT DETECTED!")
+                    reportwarning("BROWNOUT DETECTED!")
                     return
 
         robot_base()
         sparkmax_safety()
         joystick_init(const.driver_controller_type, const.operator_controller_type)
 
-    def robotPeriodic(self):
+
+
+    def teleopInit(self):
         current_time = Timer.getFPGATimestamp()
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
 
         sparkmax_safety()
 
-
-
-
-
     def teleopPeriodic(self):
         drive = drivetrain_subsystem.DifferentialDriveSubsystem()
         drive.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else drive.xbox_drive(self.driver_joystick)
+
+        if RobotState.isAutonomous():
+            pass
+
+
 
     def autonomousInit(self):
         global autonomous_start
