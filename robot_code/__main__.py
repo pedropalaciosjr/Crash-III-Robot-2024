@@ -1,1 +1,1 @@
-import robot_code.main.initialization.robot
+import main.initialization.robot
