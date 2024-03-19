@@ -1,5 +1,5 @@
 from wpilib import event, drive
-from main.initialization.constants import Constants
+from ..initialization import constants
 
 class DifferentialDriveSubsystem():
     def __init__(self):

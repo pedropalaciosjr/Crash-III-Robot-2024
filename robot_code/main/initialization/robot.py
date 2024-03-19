@@ -9,20 +9,20 @@ from wpilib import (
     Joystick,
     CameraServer,
     event)
-from rev import (CANSparkMax, MotorType)
-from main.initialization.constants import Constants as const
-from subsystems import drivetrain_subsystem
+import rev
+from . import constants as const
+from ..subsystems import drivetrain_subsystem
 
 class MyRobot(TimedRobot):
     def __robotInit__(self):
         def robot_base():
 
-            self.LEFT_FRONT, self.LEFT_REAR = CANSparkMax(const.LEFT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.LEFT_REAR_CAN_ID, MotorType.kBrushless)
-            self.RIGHT_FRONT, self.RIGHT_REAR = CANSparkMax(const.RIGHT_FRONT_CAN_ID, MotorType.kBrushless), CANSparkMax(const.RIGHT_REAR_CAN_ID, MotorType.kBrushless)
+            self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(const.LEFT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.LEFT_REAR_CAN_ID, rev.MotorType.kBrushless)
+            self.RIGHT_FRONT, self.RIGHT_REAR = rev.CANSparkMax(const.RIGHT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.RIGHT_REAR_CAN_ID, rev.MotorType.kBrushless)
 
-            self.LAUNCH_WHEEL, self.FEEDER_WHEEL, self.ROLLER_CLAW = CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, MotorType.kBrushless), CANSparkMax(const.FEEDER_WHEEL_CAN_ID, MotorType.kBrushless),\
-                CANSparkMax(const.ROLLER_CLAW_CAN_ID, MotorType.kBrushless)
-            self.CLIMBER = CANSparkMax(const.CLIMBER_CAN_ID, MotorType.kBrushless)
+            self.LAUNCH_WHEEL, self.FEEDER_WHEEL, self.ROLLER_CLAW = rev.CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.FEEDER_WHEEL_CAN_ID, rev.MotorType.kBrushless),\
+                rev.CANSparkMax(const.ROLLER_CLAW_CAN_ID, rev.MotorType.kBrushless)
+            self.CLIMBER = rev.CANSparkMax(const.CLIMBER_CAN_ID, rev.MotorType.kBrushless)
 
             self.LEFT = drive.MotorControllerGroup(self.LEFT_FRONT, self.LEFT_REAR)
             self.RIGHT = drive.MotorControllerGroup(self.RIGHT_FRONT, self.RIGHT_REAR)
@@ -75,8 +75,8 @@ class MyRobot(TimedRobot):
 
 
     def teleopPeriodic(self):
-        drive = drivetrain_subsystem.DifferentailDrive
-        drive.ps4_drive(self.driver_joystick) if drivetrain_subsystem.driver_controller_type == "PS4" else drive.xbox_drive(self.driver_joystick)
+        drive = DifferentialDriveSubsystem()
+        drive.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else drive.xbox_drive(self.driver_joystick)
 
     def autonomousInit(self):
         global autonomous_start
