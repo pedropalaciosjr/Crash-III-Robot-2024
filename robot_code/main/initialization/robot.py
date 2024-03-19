@@ -101,6 +101,7 @@ class MyRobot(TimedRobot):
             SmartDashboard.putBoolean("Climber Brownout Detected:", climber_brownout)
 
         robot_base()
+        sparkmax_safety()
         joystick_init(const.driver_controller_type, const.operator_controller_type)
 
     def robotPeriodic(self):
