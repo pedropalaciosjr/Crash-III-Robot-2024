@@ -1,4 +1,4 @@
-from wpilib import event, drive
+from wpilib import event, drive, commands2
 from ..initialization import constants
 
 class DifferentialDriveSubsystem():
@@ -6,7 +6,8 @@ class DifferentialDriveSubsystem():
         pass
     
     def ps4_drive(self, driver_controller):
-        event.BooleanEvent(drive.arcadeDrive(driver_controller.getLeftY, driver_controller.getRightX, bool=True))
+        commands2.button.Trigger(drive.arcadeDrive(driver_controller.getLeftY, driver_controller.getRightX), driver_controller)
+        event.BooleanEvent(drive.arcadeDrive(driver_controller.getLeftY, driver_controller.getRightX, bool=True), True)
 
-    def xbox_drive(self, driver_controller):
+    def logitech_drive(self, driver_controller):
         event.BooleanEvent(drive.arcadeDrive(driver_controller.getLeftX), bool=True)

@@ -10,7 +10,8 @@ from wpilib import (
     CameraServer,
     event,
     RobotState,
-    reportwarning
+    reportwarning,
+    commands2
     )
 import rev
 from . import constants as const
@@ -117,15 +118,16 @@ class MyRobot(TimedRobot):
 
 
     def teleopInit(self):
+        self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
         current_time = Timer.getFPGATimestamp()
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
 
         sparkmax_safety()
 
     def teleopPeriodic(self):
-        drive = drivetrain_subsystem.DifferentialDriveSubsystem()
-        drive.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else drive.xbox_drive(self.driver_joystick)
-
+        self.drive.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else self.drive.logitech_drive(self.driver_joystick)
+        
+        commands2.button.Trigger(drive.arcadeDrive(self.driver_joystick.getLeftY, self.driver_joystick.getRightX), commands2.onTrue())
         if RobotState.isAutonomous():
             pass
 
