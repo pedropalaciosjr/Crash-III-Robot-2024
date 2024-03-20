@@ -37,7 +37,8 @@ class MyRobot(TimedRobot):
                 self.ARM_RIGHT,
                 self.SHOOTER_LEFT,
                 self.SHOOTER_RIGHT,
-                self.INTAKE
+                self.INTAKE,
+                self.CLIMBER
             ]
 
             self.LEFT = drive.MotorControllerGroup(self.LEFT_FRONT, self.LEFT_REAR)
