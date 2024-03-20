@@ -21,9 +21,12 @@ class MyRobot(TimedRobot):
     def robotInit(self):
         global sparkmax_safety
         def robot_base():
-
             self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(const.LEFT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.LEFT_REAR_CAN_ID, rev.MotorType.kBrushless)
             self.RIGHT_FRONT, self.RIGHT_REAR = rev.CANSparkMax(const.RIGHT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.RIGHT_REAR_CAN_ID, rev.MotorType.kBrushless)
+
+            self.ARM, self.FEEDER_WHEEL, self.ROLLER_CLAW = rev.CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.FEEDER_WHEEL_CAN_ID, rev.MotorType.kBrushless),\
+                rev.CANSparkMax(const.ROLLER_CLAW_CAN_ID, rev.MotorType.kBrushless)
+            self.CLIMBER = rev.CANSparkMax(const.CLIMBER_CAN_ID, rev.MotorType.kBrushless)
 
             self.SPARKMAX_CONTROLLERS = [
                 self.LEFT_FRONT, 
@@ -34,10 +37,6 @@ class MyRobot(TimedRobot):
                 self.FEEDER_WHEEL, 
                 self.ROLLER_CLAW
             ]
-
-            self.LAUNCH_WHEEL, self.FEEDER_WHEEL, self.ROLLER_CLAW = rev.CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.FEEDER_WHEEL_CAN_ID, rev.MotorType.kBrushless),\
-                rev.CANSparkMax(const.ROLLER_CLAW_CAN_ID, rev.MotorType.kBrushless)
-            self.CLIMBER = rev.CANSparkMax(const.CLIMBER_CAN_ID, rev.MotorType.kBrushless)
 
             self.LEFT = drive.MotorControllerGroup(self.LEFT_FRONT, self.LEFT_REAR)
             self.RIGHT = drive.MotorControllerGroup(self.RIGHT_FRONT, self.RIGHT_REAR)
@@ -52,9 +51,9 @@ class MyRobot(TimedRobot):
             self.RIGHT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
             self.RIGHT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
 
-            self.LAUNCH_WHEEL.setSmartCurrentLimit(const.LAUNCH_WHEEL_CURRENT)
-            self.FEEDER_WHEEL.setSmartCurrentLimit(const.FEEDER_WHEEL_CURRENT)
-            self.ROLLER_CLAW.setSmartCurrentLimit(const.ROLLER_CLAW_CURRENT)
+            self.ARM.setSmartCurrentLimit(const.ARM_CURREBT)
+            self.INTAKE.setSmartCurrentLimit(const.INTAKE_CURRENT)
+            self.SHOOTER.setSmartCurrentLimit(const.SHOOTER_CURRENT)
 
             self.CLIMBER.setSmartCurrentLimit(const.CLIMBER_CURRENT)
 
