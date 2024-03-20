@@ -15,23 +15,23 @@ from wpilib import (
     )
 import rev
 from . import constants as const
-from ..subsystems import drivetrain_subsystem
+from ..subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem
 
 class MyRobot(TimedRobot):
     def robotInit(self):
         global sparkmax_safety
         def robot_base():
             self.SPARKMAX_CONTROLLERS = [
-                self.LEFT_FRONT, 
-                self.LEFT_REAR, 
-                self.RIGHT_FRONT, 
-                self.RIGHT_REAR, 
-                self.ARM_LEFT, 
-                self.ARM_RIGHT,
-                self.SHOOTER_LEFT,
-                self.SHOOTER_RIGHT,
-                self.INTAKE,
-                self.CLIMBER
+                drivetrain_subsystem.LEFT_FRONT, 
+                drivetrain_subsystem.LEFT_REAR, 
+                drivetrain_subsystem.RIGHT_FRONT, 
+                drivetrain_subsystem.RIGHT_REAR, 
+                arm_subsystem.ARM_LEFT, 
+                arm_subsystem.ARM_RIGHT,
+                shooter_subsystem.SHOOTER_LEFT,
+                shooter_subsystem.SHOOTER_RIGHT,
+                intake_subsystem.INTAKE,
+                climber_subsystem.CLIMBER
             ]
 
             CameraServer.launch("robot_vision.py:main")
