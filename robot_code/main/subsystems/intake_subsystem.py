@@ -1,6 +1,7 @@
 import rev
 from ..initialization import constants
 
-class ShooterSubsystem():
+
+class IntakeSubsystem():
     def __init__(self):
         pass
