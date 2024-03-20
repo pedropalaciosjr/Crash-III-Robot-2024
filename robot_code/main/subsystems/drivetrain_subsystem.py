@@ -1,6 +1,6 @@
 import rev
 
-from wpilib import event, drive, commands2
+from wpilib import event, drive
 from ..initialization import constants as const
 
 class DifferentialDriveSubsystem():

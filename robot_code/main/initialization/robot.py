@@ -10,8 +10,7 @@ from wpilib import (
     CameraServer,
     event,
     RobotState,
-    reportwarning,
-    commands2,
+    reportWarning,
     SendableChooser
     )
 import rev
@@ -85,7 +84,7 @@ class MyRobot(TimedRobot):
 
             for state in brownout_faults:
                 if state:
-                    reportwarning("BROWNOUT DETECTED!")
+                    reportWarning("BROWNOUT DETECTED!")
                     return
                 
 
