@@ -24,8 +24,8 @@ class MyRobot(TimedRobot):
             self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(const.LEFT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.LEFT_REAR_CAN_ID, rev.MotorType.kBrushless)
             self.RIGHT_FRONT, self.RIGHT_REAR = rev.CANSparkMax(const.RIGHT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.RIGHT_REAR_CAN_ID, rev.MotorType.kBrushless)
 
-            self.ARM, self.FEEDER_WHEEL, self.ROLLER_CLAW = rev.CANSparkMax(const.LAUNCH_WHEEL_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.FEEDER_WHEEL_CAN_ID, rev.MotorType.kBrushless),\
-                rev.CANSparkMax(const.ROLLER_CLAW_CAN_ID, rev.MotorType.kBrushless)
+            self.ARM_LEFT, self.ARM_RIGHT, self.SHOOTER_LEFT, self.SHOOTER_RIGHT, self.INTAKE = rev.CANSparkMax(const.ARM_LEFT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.ARM_RIGHT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.SHOOTER_LEFT_CAN_ID, rev.MotorType.kBrushless),\
+                rev.CANSparkMax(const.SHOOTER_RIGHT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.INTAKE_CAN_ID, rev.MotorType.kBrushless)
             self.CLIMBER = rev.CANSparkMax(const.CLIMBER_CAN_ID, rev.MotorType.kBrushless)
 
             self.SPARKMAX_CONTROLLERS = [
@@ -33,9 +33,11 @@ class MyRobot(TimedRobot):
                 self.LEFT_REAR, 
                 self.RIGHT_FRONT, 
                 self.RIGHT_REAR, 
-                self.LAUNCH_WHEEL, 
-                self.FEEDER_WHEEL, 
-                self.ROLLER_CLAW
+                self.ARM_LEFT, 
+                self.ARM_RIGHT,
+                self.SHOOTER_LEFT,
+                self.SHOOTER_RIGHT,
+                self.INTAKE
             ]
 
             self.LEFT = drive.MotorControllerGroup(self.LEFT_FRONT, self.LEFT_REAR)
@@ -64,9 +66,11 @@ class MyRobot(TimedRobot):
             self.LEFT_REAR.burnFlash()
             self.RIGHT_FRONT.burnFlash()
             self.RIGHT_REAR.burnFlash()
-            self.LAUNCH_WHEEL.burnFlash()
-            self.FEEDER_WHEEL.burnFlash()
-            self.ROLLER_CLAW.burnFlash()
+            self.ARM_LEFT.burnFlash()
+            self.ARM_RIGHT.burnFlash()
+            self.SHOOTER_LEFT.burnFlash()
+            self.SHOOTER_RIGHT.burnFlash()
+            self.INTAKE.burnFlash()
             self.CLIMBER.burnFlash()
 
             CameraServer.launch("robot_vision.py:main")
