@@ -41,40 +41,6 @@ class MyRobot(TimedRobot):
                 self.CLIMBER
             ]
 
-            self.LEFT = drive.MotorControllerGroup(self.LEFT_FRONT, self.LEFT_REAR)
-            self.RIGHT = drive.MotorControllerGroup(self.RIGHT_FRONT, self.RIGHT_REAR)
-            
-            self.DIFFERENTIAL_DRIVE = drive.DifferentialDrive(self.LEFT, self.RIGHT)
-
-            self.LEFT_FRONT.setInverted(False)
-            self.RIGHT_FRONT.setInverted(False)
-    
-            self.LEFT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-            self.LEFT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-            self.RIGHT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-            self.RIGHT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-
-            self.ARM_LEFT.setSmartCurrentLimit(const.ARM_LEFT_CURRENT)
-            self.ARM_RIGHT.setSmartCurrentLimit(const.ARM_RIGHT_CURRENT)
-            self.SHOOTER_LEFT.setSmartCurrentLimit(const.SHOOTER_LEFT_CURRENT)
-            self.SHOOTER_RIGHT.setSmartCurrentLimit(const.SHOOTER_RIGHT_CURRENT)
-            self.INTAKE.setSmartCurrentLimit(const.INTAKE_CURRENT)
-
-            self.CLIMBER.setSmartCurrentLimit(const.CLIMBER_CURRENT)
-
-            self.LEFT_REAR.follow(self.LEFT_FRONT, bool=False)
-            self.RIGHT_REAR.follow(self.RIGHT_FRONT, bool=False)
-
-            self.LEFT_FRONT.burnFlash()
-            self.LEFT_REAR.burnFlash()
-            self.RIGHT_FRONT.burnFlash()
-            self.RIGHT_REAR.burnFlash()
-            self.ARM_LEFT.burnFlash()
-            self.ARM_RIGHT.burnFlash()
-            self.SHOOTER_LEFT.burnFlash()
-            self.SHOOTER_RIGHT.burnFlash()
-            self.INTAKE.burnFlash()
-            self.CLIMBER.burnFlash()
 
             CameraServer.launch("robot_vision.py:main")
         
