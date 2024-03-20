@@ -11,7 +11,8 @@ from wpilib import (
     event,
     RobotState,
     reportwarning,
-    commands2
+    commands2,
+    SendableChooser
     )
 import rev
 from . import constants as const
@@ -20,7 +21,7 @@ from ..subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem,
 class MyRobot(TimedRobot):
     def robotInit(self):
         global sparkmax_safety
-        def robot_base():
+        def robot_base(self):
             self.SPARKMAX_CONTROLLERS = [
                 drivetrain_subsystem.LEFT_FRONT, 
                 drivetrain_subsystem.LEFT_REAR, 
@@ -33,14 +34,26 @@ class MyRobot(TimedRobot):
                 intake_subsystem.INTAKE,
                 climber_subsystem.CLIMBER
             ]
+            self.auto_mode_one = "Auto Mode One"
+            self.auto_mode_two = "Auto Mode Two"
+            self.auto_mode_three = "Auto Mode Three"
+
+            self.chooser = SendableChooser()
+
+            self.chooser.setDefaultOption("Auto Mode One", self.auto_mode_one)
+            self.chooser.addOption("Auto Mode Two", self.auto_mode_two)
+            self.chooser.addOption("Auto Mode Three", self.auto_mode_three)
+
+            SmartDashboard.putData("Autonomous Modes", self.chooser)
+
 
             CameraServer.launch("robot_vision.py:main")
         
-        def joystick_init(driver_controller_type = "null", operator_controller_type= "null" ):
+        def joystick_init(self, driver_controller_type = "null", operator_controller_type= "null" ):
             self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (Joystick(0))
             self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (Joystick(1))
 
-        def sparkmax_safety():
+        def sparkmax_safety(self):
             motor_temperatures = []
             brownout_faults = []
             for sparkmax in self.SPARKMAX_CONTROLLERS:
@@ -74,6 +87,7 @@ class MyRobot(TimedRobot):
                 if state:
                     reportwarning("BROWNOUT DETECTED!")
                     return
+                
 
         robot_base()
         sparkmax_safety()
@@ -99,6 +113,9 @@ class MyRobot(TimedRobot):
     def autonomousInit(self):
         global autonomous_start
         autonomous_start = Timer.getFPGATimestamp()
+
+        self.auto_mode_selected = self.chooser.getSelected()
+        SmartDashboard.putString("Autonomous Mode:", self.auto_mode_selected)
     
     def autonomousPeriodic(self):
         # Autonomous primary commands
@@ -107,5 +124,10 @@ class MyRobot(TimedRobot):
 
         time_elapsed = time_elapsed(autonomous_periodic, autonomous_start)
 
-
-        pass
+        match self.auto_mode_selected:
+            case self.auto_mode_one:
+                pass
+            case self.auto_mode_two:
+                pass
+            case self.auto_mode_three:
+                pass
