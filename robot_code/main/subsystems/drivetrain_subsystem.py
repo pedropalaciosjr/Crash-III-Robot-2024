@@ -1,8 +1,15 @@
+import rev
+
 from wpilib import event, drive, commands2
 from ..initialization import constants as const
 
 class DifferentialDriveSubsystem():
     def __init__(self):
+        self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(const.LEFT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.LEFT_REAR_CAN_ID, rev.MotorType.kBrushless)
+        self.RIGHT_FRONT, self.RIGHT_REAR = rev.CANSparkMax(const.RIGHT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.RIGHT_REAR_CAN_ID, rev.MotorType.kBrushless)
+
+
+
         self.LEFT = drive.MotorControllerGroup(self.LEFT_FRONT, self.LEFT_REAR)
         self.RIGHT = drive.MotorControllerGroup(self.RIGHT_FRONT, self.RIGHT_REAR)
             
@@ -18,7 +25,7 @@ class DifferentialDriveSubsystem():
     
         self.LEFT_REAR.follow(self.LEFT_FRONT, bool=False)
         self.RIGHT_REAR.follow(self.RIGHT_FRONT, bool=False)
-        
+
         self.LEFT_FRONT.burnFlash()
         self.LEFT_REAR.burnFlash()
         self.RIGHT_FRONT.burnFlash()

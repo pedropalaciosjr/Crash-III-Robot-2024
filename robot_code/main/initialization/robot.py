@@ -21,13 +21,6 @@ class MyRobot(TimedRobot):
     def robotInit(self):
         global sparkmax_safety
         def robot_base():
-            self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(const.LEFT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.LEFT_REAR_CAN_ID, rev.MotorType.kBrushless)
-            self.RIGHT_FRONT, self.RIGHT_REAR = rev.CANSparkMax(const.RIGHT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.RIGHT_REAR_CAN_ID, rev.MotorType.kBrushless)
-
-            self.ARM_LEFT, self.ARM_RIGHT, self.SHOOTER_LEFT, self.SHOOTER_RIGHT, self.INTAKE = rev.CANSparkMax(const.ARM_LEFT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.ARM_RIGHT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.SHOOTER_LEFT_CAN_ID, rev.MotorType.kBrushless),\
-                rev.CANSparkMax(const.SHOOTER_RIGHT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.INTAKE_CAN_ID, rev.MotorType.kBrushless)
-            self.CLIMBER = rev.CANSparkMax(const.CLIMBER_CAN_ID, rev.MotorType.kBrushless)
-
             self.SPARKMAX_CONTROLLERS = [
                 self.LEFT_FRONT, 
                 self.LEFT_REAR, 
@@ -40,7 +33,6 @@ class MyRobot(TimedRobot):
                 self.INTAKE,
                 self.CLIMBER
             ]
-
 
             CameraServer.launch("robot_vision.py:main")
         
