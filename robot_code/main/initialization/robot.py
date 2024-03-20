@@ -53,9 +53,11 @@ class MyRobot(TimedRobot):
             self.RIGHT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
             self.RIGHT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
 
-            self.ARM.setSmartCurrentLimit(const.ARM_CURREBT)
+            self.ARM_LEFT.setSmartCurrentLimit(const.ARM_LEFT_CURRENT)
+            self.ARM_RIGHT.setSmartCurrentLimit(const.ARM_RIGHT_CURRENT)
+            self.SHOOTER_LEFT.setSmartCurrentLimit(const.SHOOTER_LEFT_CURRENT)
+            self.SHOOTER_RIGHT.setSmartCurrentLimit(const.SHOOTER_RIGHT_CURRENT)
             self.INTAKE.setSmartCurrentLimit(const.INTAKE_CURRENT)
-            self.SHOOTER.setSmartCurrentLimit(const.SHOOTER_CURRENT)
 
             self.CLIMBER.setSmartCurrentLimit(const.CLIMBER_CURRENT)
 
