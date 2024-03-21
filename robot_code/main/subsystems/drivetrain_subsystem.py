@@ -31,7 +31,7 @@ class DifferentialDriveSubsystem():
         self.RIGHT_FRONT.burnFlash()
         self.RIGHT_REAR.burnFlash()
     def ps4_drive(self, driver_joystick):
-        drive.arcadeDrive(self.driver_joystick.getLeftY, self.driver_joystick.getRightX)
+        drive.arcadeDrive(driver_joystick.getLeftY, driver_joystick.getRightX)
 
     def logitech_drive(self, driver_joystick):
         event.BooleanEvent(drive.arcadeDrive(driver_joystick.getLeftX), bool=True)

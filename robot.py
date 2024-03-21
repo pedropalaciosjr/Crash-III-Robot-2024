@@ -102,7 +102,7 @@ class MyRobot(TimedRobot):
         sparkmax_safety()
 
     def teleopPeriodic(self):
-        self.drive.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else self.drive.logitech_drive(self.driver_joystick)
+        drivetrain_subsystem.DifferentialDriveSubsystem.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else drivetrain_subsystem.DifferentialDriveSubsystem.logitech_drive(self.driver_joystick)
     
         if RobotState.isAutonomous():
             pass
