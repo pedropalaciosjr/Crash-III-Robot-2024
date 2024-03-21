@@ -14,8 +14,8 @@ from wpilib import (
     SendableChooser
     )
 import rev
-from . import constants as const
-from ..subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem
+from robot_code.main.initialization.constants import Constants as const
+from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem
 
 class MyRobot(TimedRobot):
     def robotInit(self):
