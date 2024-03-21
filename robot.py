@@ -6,7 +6,7 @@ from wpilib import (
     Timer,
     TimedRobot,
     PS4Controller,
-    Joystick,
+    XboxController,
     CameraServer,
     event,
     RobotState,
@@ -49,8 +49,8 @@ class MyRobot(TimedRobot):
             CameraServer.launch("robot_vision.py:main")
         
         def joystick_init(self, driver_controller_type = "null", operator_controller_type= "null" ):
-            self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (Joystick(0))
-            self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (Joystick(1))
+            self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (XboxController(0))
+            self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (XboxController(1))
 
         def sparkmax_safety(self):
             motor_temperatures = []
@@ -102,7 +102,7 @@ class MyRobot(TimedRobot):
         sparkmax_safety()
 
     def teleopPeriodic(self):
-        drivetrain_subsystem.DifferentialDriveSubsystem.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else drivetrain_subsystem.DifferentialDriveSubsystem.logitech_drive(self.driver_joystick)
+        drivetrain_subsystem.DifferentialDriveSubsystem.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else drivetrain_subsystem.DifferentialDriveSubsystem.xbox_logitech_drive(self.driver_joystick)
     
         if RobotState.isAutonomous():
             pass
