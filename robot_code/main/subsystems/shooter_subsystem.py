@@ -8,5 +8,8 @@ class ShooterSubsystem():
         self.SHOOTER_LEFT.setSmartCurrentLimit(const.SHOOTER_LEFT_CURRENT)
         self.SHOOTER_RIGHT.setSmartCurrentLimit(const.SHOOTER_RIGHT_CURRENT)
 
+        self.SHOOTER_LEFT.follow(self.SHOOTER_RIGHT)
+
         self.SHOOTER_LEFT.burnFlash()
         self.SHOOTER_RIGHT.burnFlash()
+

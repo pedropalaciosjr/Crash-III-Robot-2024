@@ -103,7 +103,8 @@ class MyRobot(TimedRobot):
 
     def teleopPeriodic(self):
         drivetrain_subsystem.DifferentialDriveSubsystem.ps4_drive(self.driver_joystick) if const.driver_controller_type == "PS4" else drivetrain_subsystem.DifferentialDriveSubsystem.xbox_logitech_drive(self.driver_joystick)
-    
+        intake_subsystem.IntakeSubsystem.ps4_intake(self.operator_joystick) if const.driver_controller_type == "PS4" else intake_subsystem.IntakeSubsystem.xbox_intake(self.operator_joystick)
+        
         if RobotState.isAutonomous():
             pass
 
