@@ -15,29 +15,30 @@ from wpilib import (
     )
 from rev import FaultID
 from robot_code.main.initialization.constants import Constants as const
-from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem
+from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem, autonomous_subsystem
 
 class MyRobot(TimedRobot):
     def robotInit(self):
         global sparkmax_safety
         def robot_base(self):
-            self.drive_class = drivetrain_subsystem.DifferentialDriveSubsystem()
-            self.arm_class = arm_subsystem.ArmSubsystem()
-            self.shooter_class = shooter_subsystem.ShooterSubsystem()
-            self.intake_class = intake_subsystem.IntakeSubsystem()
-            self.climber_class = climber_subsystem.ClimberSubsystem()
+            self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
+            self.arm = arm_subsystem.ArmSubsystem()
+            self.shooter = shooter_subsystem.ShooterSubsystem()
+            self.intake = intake_subsystem.IntakeSubsystem()
+            self.climber = climber_subsystem.ClimberSubsystem()
+            self.auto = autonomous_subsystem.AutonomousSubsystem()
 
             self.SPARKMAX_CONTROLLERS = [
-                self.drive_class.LEFT_FRONT, 
-                self.drive_class.LEFT_REAR, 
-                self.drive_class.RIGHT_FRONT, 
-                self.drive_class.RIGHT_REAR, 
-                self.arm_class.ARM_LEFT, 
-                self.arm_class.ARM_RIGHT,
-                self.shooter_class.SHOOTER_LEFT,
-                self.shooter_class.SHOOTER_RIGHT,
-                self.intake_class.INTAKE,
-                self.climber_class.CLIMBER
+                self.drive.LEFT_FRONT, 
+                self.drive.LEFT_REAR, 
+                self.drive.RIGHT_FRONT, 
+                self.drive.RIGHT_REAR, 
+                self.arm.ARM_LEFT, 
+                self.arm.ARM_RIGHT,
+                self.shooter.SHOOTER_LEFT,
+                self.shooter.SHOOTER_RIGHT,
+                self.intake.INTAKE,
+                self.climber.CLIMBER
             ]
             self.auto_mode_one = "Auto Mode One"
             self.auto_mode_two = "Auto Mode Two"
@@ -105,14 +106,14 @@ class MyRobot(TimedRobot):
 
 
     def teleopInit(self):
-        self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
+        pass
+    
+    def teleopPeriodic(self):
         current_time = Timer.getFPGATimestamp()
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
-
         sparkmax_safety()
-
-    def teleopPeriodic(self):
-        drivetrain_subsystem.DifferentialDriveSubsystem.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else drivetrain_subsystem.DifferentialDriveSubsystem.xbox_logitech_drive(self.driver_joystick)
+        
+        self.drive.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive.xbox_logitech_drive(self.driver_joystick)
         
         intake_subsystem.IntakeSubsystem.ps4_intake(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake(self.operator_joystick)
         intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
@@ -136,7 +137,11 @@ class MyRobot(TimedRobot):
 
         match self.auto_mode_selected:
             case self.auto_mode_one:
-                pass
+                # Drive forward for 2 seconds at half speed
+                if time_elapsed < 2:
+                    self.drive.auto_drive(1, 1)
+                else:
+                    self.drive.auto_drive(0, 0)
             case self.auto_mode_two:
                 pass
             case self.auto_mode_three:

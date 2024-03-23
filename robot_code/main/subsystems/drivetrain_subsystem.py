@@ -37,3 +37,6 @@ class DifferentialDriveSubsystem:
 
     def xbox_logitech_drive(self, driver_joystick):
         drive.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX())
+
+    def auto_drive(self, speed, rotation):
+        drive.arcadeDrive(speed, rotation)
