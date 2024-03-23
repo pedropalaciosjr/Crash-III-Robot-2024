@@ -21,17 +21,23 @@ class MyRobot(TimedRobot):
     def robotInit(self):
         global sparkmax_safety
         def robot_base(self):
+            self.drive_class = drivetrain_subsystem.DifferentialDriveSubsystem()
+            self.arm_class = arm_subsystem.ArmSubsystem()
+            self.shooter_class = shooter_subsystem.ShooterSubsystem()
+            self.intake_class = intake_subsystem.IntakeSubsystem()
+            self.climber_class = climber_subsystem.ClimberSubsystem()
+
             self.SPARKMAX_CONTROLLERS = [
-                drivetrain_subsystem.LEFT_FRONT, 
-                drivetrain_subsystem.LEFT_REAR, 
-                drivetrain_subsystem.RIGHT_FRONT, 
-                drivetrain_subsystem.RIGHT_REAR, 
-                arm_subsystem.ARM_LEFT, 
-                arm_subsystem.ARM_RIGHT,
-                shooter_subsystem.SHOOTER_LEFT,
-                shooter_subsystem.SHOOTER_RIGHT,
-                intake_subsystem.INTAKE,
-                climber_subsystem.CLIMBER
+                self.drive_class.LEFT_FRONT, 
+                self.drive_class.LEFT_REAR, 
+                self.drive_class.RIGHT_FRONT, 
+                self.drive_class.RIGHT_REAR, 
+                self.arm_class.ARM_LEFT, 
+                self.arm_class.ARM_RIGHT,
+                self.shooter_class.SHOOTER_LEFT,
+                self.shooter_class.SHOOTER_RIGHT,
+                self.intake_class.INTAKE,
+                self.climber_class.CLIMBER
             ]
             self.auto_mode_one = "Auto Mode One"
             self.auto_mode_two = "Auto Mode Two"
@@ -88,9 +94,9 @@ class MyRobot(TimedRobot):
                     return
                 
 
-        robot_base()
-        sparkmax_safety()
-        joystick_init(const.driver_controller_type, const.operator_controller_type)
+        robot_base(self)
+        sparkmax_safety(self)
+        joystick_init(self, const.driver_controller_type, const.operator_controller_type)
 
 
 

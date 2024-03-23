@@ -1,30 +1,32 @@
 import rev
 
-from wpilib import event, drive
+from wpilib import event, drive, MotorControllerGroup
 from ..initialization import constants as const
 
-class DifferentialDriveSubsystem():
+class DifferentialDriveSubsystem:
     def __init__(self):
-        self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(const.LEFT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.LEFT_REAR_CAN_ID, rev.MotorType.kBrushless)
-        self.RIGHT_FRONT, self.RIGHT_REAR = rev.CANSparkMax(const.RIGHT_FRONT_CAN_ID, rev.MotorType.kBrushless), rev.CANSparkMax(const.RIGHT_REAR_CAN_ID, rev.MotorType.kBrushless)
+        constants_class = const.Constants()
+        self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(constants_class.LEFT_FRONT_CAN_ID, rev.CANSparkLowLevel.MotorType(1)), rev.CANSparkMax(constants_class.LEFT_REAR_CAN_ID, rev.CANSparkLowLevel.MotorType(1))
+        self.RIGHT_FRONT, self.RIGHT_REAR = rev.CANSparkMax(constants_class.RIGHT_FRONT_CAN_ID, rev.CANSparkLowLevel.MotorType(1)), rev.CANSparkMax(constants_class.RIGHT_REAR_CAN_ID, rev.CANSparkLowLevel.MotorType(1))
 
+        
+        self.LEFT = MotorControllerGroup(self.LEFT_FRONT, self.LEFT_REAR)
+        self.RIGHT = MotorControllerGroup(self.RIGHT_FRONT, self.RIGHT_REAR)
 
-
-        self.LEFT = drive.MotorControllerGroup(self.LEFT_FRONT, self.LEFT_REAR)
-        self.RIGHT = drive.MotorControllerGroup(self.RIGHT_FRONT, self.RIGHT_REAR)
-            
         self.DIFFERENTIAL_DRIVE = drive.DifferentialDrive(self.LEFT, self.RIGHT)
+            
+
 
         self.LEFT_FRONT.setInverted(False)
         self.RIGHT_FRONT.setInverted(False)
     
-        self.LEFT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-        self.LEFT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-        self.RIGHT_FRONT.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
-        self.RIGHT_REAR.setSmartCurrentLimit(const.DIFFERENTIAL_DRIVE_CURRENT)
+        self.LEFT_FRONT.setSmartCurrentLimit(constants_class.DIFFERENTIAL_DRIVE_CURRENT)
+        self.LEFT_REAR.setSmartCurrentLimit(constants_class.DIFFERENTIAL_DRIVE_CURRENT)
+        self.RIGHT_FRONT.setSmartCurrentLimit(constants_class.DIFFERENTIAL_DRIVE_CURRENT)
+        self.RIGHT_REAR.setSmartCurrentLimit(constants_class.DIFFERENTIAL_DRIVE_CURRENT)
     
-        self.LEFT_REAR.follow(self.LEFT_FRONT, bool=False)
-        self.RIGHT_REAR.follow(self.RIGHT_FRONT, bool=False)
+        self.LEFT_REAR.follow(self.LEFT_FRONT)
+        self.RIGHT_REAR.follow(self.RIGHT_FRONT)
 
         self.LEFT_FRONT.burnFlash()
         self.LEFT_REAR.burnFlash()

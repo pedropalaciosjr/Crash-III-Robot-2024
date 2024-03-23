@@ -1,6 +1,6 @@
 import rev
 from ..initialization import constants
 
-class AutonomousSubsystem():
+class AutonomousSubsystem:
     def __init__(self):
         pass

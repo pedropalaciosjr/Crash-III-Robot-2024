@@ -1,6 +1,6 @@
 from wpilib import cameraserver
 
-class RobotVision():
+class RobotVision:
     def __init__(self):
         pass
     
