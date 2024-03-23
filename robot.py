@@ -66,26 +66,30 @@ class MyRobot(TimedRobot):
                 brownout_faults.append(sparkmax.getFault(FaultID.kBrownout))
             
             left_front_motor_temperature, left_rear_motor_temperature, right_front_motor_temperature, right_rear_motor_temperature,\
-                launch_wheel_temperature, feeder_wheel_temperature, roller_claw_temperature, climber_temperature = motor_temperatures
-            left_front_brownout, left_rear_brownout, right_front_brownout, right_rear_brownout, launch_wheel_brownout,\
-                 feeder_wheel_brownout, roller_claw_brownout, climber_brownout = brownout_faults
+                arm_left_temperature, arm_right_temperature, shooter_left_temperature, shooter_right_temperature, intake_temperature, climber_temperature = motor_temperatures
+            left_front_brownout, left_rear_brownout, right_front_brownout, right_rear_brownout, arm_left_brownout, \
+                 arm_right_brownout, shooter_left_brownout, shooter_right_brownout, intake_brownout, climber_brownout = brownout_faults
             
             SmartDashboard.putNumber("Left Front Motor Temperature (F)", left_front_motor_temperature)
             SmartDashboard.putNumber("Left Rear Motor Temperature (F)", left_rear_motor_temperature)
             SmartDashboard.putNumber("Right Front Motor Temperature (F)", right_front_motor_temperature)
             SmartDashboard.putNumber("Right Rear Motor Temperature (F)", right_rear_motor_temperature)
-            SmartDashboard.putNumber("Launch Wheel Motor Temperature (F)", launch_wheel_temperature)
-            SmartDashboard.putNumber("Feeder Wheel Motor Temperature (F)", feeder_wheel_temperature)
-            SmartDashboard.putNumber("Roller Claw Motor Temperature (F)", roller_claw_temperature)
-            SmartDashboard.putNumber("Climber Motor Temperature (F)", climber_temperature)
+            SmartDashboard.putNumber("Arm Left Motor Temperature (F)", arm_left_temperature)
+            SmartDashboard.putNumber("Arm Right Motor Temperature (F)", arm_right_temperature)
+            SmartDashboard.putNumber("Shooter Left Motor Temperature (F)", shooter_left_temperature)
+            SmartDashboard.putNumber("Shooter Right Motor Temperature (F)", shooter_right_temperature)
+            SmartDashboard.putNumber("Intake Motor Temperature (F)", intake_temperature)
+            SmartDashboard.putNumber("Climber Right Motor Temperature (F)", climber_temperature)
 
             SmartDashboard.putBoolean("Left Front Brownout Detected:", left_front_brownout)
             SmartDashboard.putBoolean("Left Rear Brownout Detected:", left_rear_brownout)
             SmartDashboard.putBoolean("Right Front Brownout Detected:", right_front_brownout)
             SmartDashboard.putBoolean("Right Rear Brownout Detected:", right_rear_brownout)
-            SmartDashboard.putBoolean("Launch Wheel Brownout Detected:", launch_wheel_brownout)
-            SmartDashboard.putBoolean("Feeder Wheel Brownout Detected:", feeder_wheel_brownout)
-            SmartDashboard.putBoolean("Roller Claw Brownout Detected:", roller_claw_brownout)
+            SmartDashboard.putBoolean("Arm Left Brownout Detected:", arm_left_brownout)
+            SmartDashboard.putBoolean("Arm Right Brownout Detected:", arm_right_brownout)
+            SmartDashboard.putBoolean("Shooter Left Brownout Detected:", shooter_left_brownout)
+            SmartDashboard.putBoolean("Shooter Right Brownout Detected:", shooter_right_brownout)
+            SmartDashboard.putBoolean("Intake Brownout Detected:", intake_brownout)
             SmartDashboard.putBoolean("Climber Brownout Detected:", climber_brownout)
 
             for state in brownout_faults:
