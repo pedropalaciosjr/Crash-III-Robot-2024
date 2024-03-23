@@ -13,7 +13,7 @@ from wpilib import (
     reportWarning,
     SendableChooser
     )
-import rev
+from rev import FaultID
 from robot_code.main.initialization.constants import Constants as const
 from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem
 
@@ -63,7 +63,7 @@ class MyRobot(TimedRobot):
             brownout_faults = []
             for sparkmax in self.SPARKMAX_CONTROLLERS:
                 motor_temperatures.append((1.8 * sparkmax.getMotorTemperature()) + 32)
-                brownout_faults.append(sparkmax.getFault(0))
+                brownout_faults.append(sparkmax.getFault(FaultID.kBrownout))
             
             left_front_motor_temperature, left_rear_motor_temperature, right_front_motor_temperature, right_rear_motor_temperature,\
                 launch_wheel_temperature, feeder_wheel_temperature, roller_claw_temperature, climber_temperature = motor_temperatures
