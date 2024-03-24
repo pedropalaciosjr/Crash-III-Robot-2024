@@ -114,8 +114,7 @@ class MyRobot(TimedRobot):
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
         sparkmax_safety()
         
-        # self.drive.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive.xbox_logitech_drive(self.driver_joystick)
-        self.drive_class.DIFFERENTIAL_DRIVE.arcadeDrive(self.driver_joystick.getLeftY(), self.driver_joystick.getRightX())
+        self.drive_class.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive.xbox_logitech_drive(self.driver_joystick)
         # intake_subsystem.IntakeSubsystem.ps4_intake(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake(self.operator_joystick)
         # intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
         
@@ -135,6 +134,8 @@ class MyRobot(TimedRobot):
         time_elapsed = lambda final, init : final - init
 
         time_elapsed = time_elapsed(autonomous_periodic, autonomous_start)
+
+        sparkmax_safety(self)
 
         match self.auto_mode_selected:
             case self.auto_mode_one:
