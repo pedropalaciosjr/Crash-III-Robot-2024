@@ -13,47 +13,49 @@ from wpilib import (
     reportWarning,
     SendableChooser
     )
-from rev import FaultID
+import rev
 from robot_code.main.initialization.constants import Constants as const
 from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem, autonomous_subsystem
 
 class MyRobot(TimedRobot):
     def robotInit(self):
         global sparkmax_safety
-        def robot_base(self):
-            self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
-            self.arm = arm_subsystem.ArmSubsystem()
-            self.shooter = shooter_subsystem.ShooterSubsystem()
-            self.intake = intake_subsystem.IntakeSubsystem()
-            self.climber = climber_subsystem.ClimberSubsystem()
-            self.auto = autonomous_subsystem.AutonomousSubsystem()
+        global constants_class
+        global drive_class
 
-            self.SPARKMAX_CONTROLLERS = [
-                self.drive.LEFT_FRONT, 
-                self.drive.LEFT_REAR, 
-                self.drive.RIGHT_FRONT, 
-                self.drive.RIGHT_REAR, 
-                self.arm.ARM_LEFT, 
-                self.arm.ARM_RIGHT,
-                self.shooter.SHOOTER_LEFT,
-                self.shooter.SHOOTER_RIGHT,
-                self.intake.INTAKE,
-                self.climber.CLIMBER
-            ]
-            self.auto_mode_one = "Auto Mode One"
-            self.auto_mode_two = "Auto Mode Two"
-            self.auto_mode_three = "Auto Mode Three"
+        self.drive_class = drivetrain_subsystem.DifferentialDriveSubsystem()
+        self.arm = arm_subsystem.ArmSubsystem()
+        self.shooter = shooter_subsystem.ShooterSubsystem()
+        self.intake = intake_subsystem.IntakeSubsystem()
+        self.climber = climber_subsystem.ClimberSubsystem()
+        self.auto = autonomous_subsystem.AutonomousSubsystem()
 
-            self.chooser = SendableChooser()
+        self.SPARKMAX_CONTROLLERS = [
+            self.drive_class.LEFT_FRONT, 
+            self.drive_class.LEFT_REAR, 
+            self.drive_class.RIGHT_FRONT, 
+            self.drive_class.RIGHT_REAR, 
+            self.arm.ARM_LEFT, 
+            self.arm.ARM_RIGHT,
+            self.shooter.SHOOTER_LEFT,
+            self.shooter.SHOOTER_RIGHT,
+            self.intake.INTAKE,
+            # self.climber.CLIMBER
+        ]
+        self.auto_mode_one = "Auto Mode One"
+        self.auto_mode_two = "Auto Mode Two"
+        self.auto_mode_three = "Auto Mode Three"
 
-            self.chooser.setDefaultOption("Auto Mode One", self.auto_mode_one)
-            self.chooser.addOption("Auto Mode Two", self.auto_mode_two)
-            self.chooser.addOption("Auto Mode Three", self.auto_mode_three)
+        self.chooser = SendableChooser()
 
-            SmartDashboard.putData("Autonomous Modes", self.chooser)
+        self.chooser.setDefaultOption("Auto Mode One", self.auto_mode_one)
+        self.chooser.addOption("Auto Mode Two", self.auto_mode_two)
+        self.chooser.addOption("Auto Mode Three", self.auto_mode_three)
+
+        SmartDashboard.putData("Autonomous Modes", self.chooser)
 
 
-            CameraServer.launch("robot_vision.py:main")
+        CameraServer.launch("robot_vision.py:main")
         
         def joystick_init(self, driver_controller_type = "null", operator_controller_type= "null" ):
             self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (XboxController(0))
@@ -64,12 +66,12 @@ class MyRobot(TimedRobot):
             brownout_faults = []
             for sparkmax in self.SPARKMAX_CONTROLLERS:
                 motor_temperatures.append((1.8 * sparkmax.getMotorTemperature()) + 32)
-                brownout_faults.append(sparkmax.getFault(FaultID.kBrownout))
+                brownout_faults.append(sparkmax.getFault(rev.CANSparkBase.FaultID.kBrownout))
             
             left_front_motor_temperature, left_rear_motor_temperature, right_front_motor_temperature, right_rear_motor_temperature,\
-                arm_left_temperature, arm_right_temperature, shooter_left_temperature, shooter_right_temperature, intake_temperature, climber_temperature = motor_temperatures
+                arm_left_temperature, arm_right_temperature, shooter_left_temperature, shooter_right_temperature, intake_temperature = motor_temperatures
             left_front_brownout, left_rear_brownout, right_front_brownout, right_rear_brownout, arm_left_brownout, \
-                 arm_right_brownout, shooter_left_brownout, shooter_right_brownout, intake_brownout, climber_brownout = brownout_faults
+                 arm_right_brownout, shooter_left_brownout, shooter_right_brownout, intake_brownout = brownout_faults
             
             SmartDashboard.putNumber("Left Front Motor Temperature (F)", left_front_motor_temperature)
             SmartDashboard.putNumber("Left Rear Motor Temperature (F)", left_rear_motor_temperature)
@@ -80,7 +82,7 @@ class MyRobot(TimedRobot):
             SmartDashboard.putNumber("Shooter Left Motor Temperature (F)", shooter_left_temperature)
             SmartDashboard.putNumber("Shooter Right Motor Temperature (F)", shooter_right_temperature)
             SmartDashboard.putNumber("Intake Motor Temperature (F)", intake_temperature)
-            SmartDashboard.putNumber("Climber Right Motor Temperature (F)", climber_temperature)
+            # SmartDashboard.putNumber("Climber Right Motor Temperature (F)", climber_temperature)
 
             SmartDashboard.putBoolean("Left Front Brownout Detected:", left_front_brownout)
             SmartDashboard.putBoolean("Left Rear Brownout Detected:", left_rear_brownout)
@@ -91,17 +93,16 @@ class MyRobot(TimedRobot):
             SmartDashboard.putBoolean("Shooter Left Brownout Detected:", shooter_left_brownout)
             SmartDashboard.putBoolean("Shooter Right Brownout Detected:", shooter_right_brownout)
             SmartDashboard.putBoolean("Intake Brownout Detected:", intake_brownout)
-            SmartDashboard.putBoolean("Climber Brownout Detected:", climber_brownout)
+            # SmartDashboard.putBoolean("Climber Brownout Detected:", climber_brownout)
 
             for state in brownout_faults:
                 if state:
                     reportWarning("BROWNOUT DETECTED!")
                     return
                 
-
-        robot_base(self)
+        constants_class = const()
         sparkmax_safety(self)
-        joystick_init(self, const.driver_controller_type, const.operator_controller_type)
+        joystick_init(self, constants_class.driver_controller_type, constants_class.driver_controller_type)
 
 
 
@@ -113,10 +114,10 @@ class MyRobot(TimedRobot):
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
         sparkmax_safety()
         
-        self.drive.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive.xbox_logitech_drive(self.driver_joystick)
-        
-        intake_subsystem.IntakeSubsystem.ps4_intake(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake(self.operator_joystick)
-        intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
+        # self.drive.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive.xbox_logitech_drive(self.driver_joystick)
+        self.drive_class.DIFFERENTIAL_DRIVE.arcadeDrive(self.driver_joystick.getLeftY(), self.driver_joystick.getRightX())
+        # intake_subsystem.IntakeSubsystem.ps4_intake(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake(self.operator_joystick)
+        # intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
         
         if RobotState.isAutonomous():
             pass
@@ -139,9 +140,10 @@ class MyRobot(TimedRobot):
             case self.auto_mode_one:
                 # Drive forward for 2 seconds at half speed
                 if time_elapsed < 2:
-                    self.drive.auto_drive(1, 1)
+                    self.drive_class.auto_drive(1.0, 1.0)
+    
                 else:
-                    self.drive.auto_drive(0, 0)
+                    self.drive_class.auto_drive(0, 0)
             case self.auto_mode_two:
                 pass
             case self.auto_mode_three:
