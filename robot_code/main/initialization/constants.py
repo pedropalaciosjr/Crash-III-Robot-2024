@@ -22,18 +22,18 @@ class Constants:
         self.INTAKE_CAN_ID = 9
         self.CLIMBER_CAN_ID = 10
 
-        self.DIFFERENTIAL_DRIVE_CURRENT = 100
+        self.DIFFERENTIAL_DRIVE_CURRENT = 50
         self.DIFFERENTIAL_AUTONOMOUS_DRIVE_SPEED = 1
         self.DIFFERENTIAL_AUTONOMOUS_ROTATION_SPEED = 1
 
 
-        self.ARM_LEFT_CURRENT, self.ARM_RIGHT_CURRENT, self.SHOOTER_LEFT_CURRENT, self.SHOOTER_RIGHT_CURRENT, self.INTAKE_CURRENT = (100, 100, 100, 100, 100)
-        self.ARM_LEFT_SPEED, self.ARM_RIGHT_SPEED, self.SHOOTER_LEFT_SPEED, self.SHOOTER_RIGHT_SPEED, self.INTAKE_SPEED = (0, 0, 0, 0, 0.55)
+        self.ARM_LEFT_CURRENT, self.ARM_RIGHT_CURRENT, self.SHOOTER_LEFT_CURRENT, self.SHOOTER_RIGHT_CURRENT, self.INTAKE_CURRENT = (40, 40, 40, 40, 40)
+        self.ARM_LEFT_SPEED, self.ARM_RIGHT_SPEED, self.SHOOTER_LEFT_SPEED, self.SHOOTER_RIGHT_SPEED, self.INTAKE_SPEED = (0, 0, 0, 0, 0.25)
         self.INTAKE_REVERSE_SPEED = 0.2
 
         self.CLIMBER_CURRENT, self.CLIMBER_SPEED = (100, 0)
 
-        self.driver_controller_type, self.operator_controller_type = ("PS4", "PS4")
+        self.driver_controller_type, self.operator_controller_type = ("PS4", "Xbox")
 
 
     

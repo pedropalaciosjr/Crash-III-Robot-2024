@@ -14,6 +14,7 @@ from wpilib import (
     SendableChooser
     )
 import rev
+from cscore import CameraServer
 from robot_code.main.initialization.constants import Constants as const
 from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem, autonomous_subsystem
 
@@ -54,14 +55,12 @@ class MyRobot(TimedRobot):
 
         SmartDashboard.putData("Autonomous Modes", self.chooser)
 
-
-        CameraServer.launch("robot_vision.py:main")
         
         def joystick_init(self, driver_controller_type = "null", operator_controller_type= "null" ):
             self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (XboxController(0))
             self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (XboxController(1))
 
-        def sparkmax_safety(self):
+        def sparkmax_safety():
             motor_temperatures = []
             brownout_faults = []
             for sparkmax in self.SPARKMAX_CONTROLLERS:
@@ -101,12 +100,13 @@ class MyRobot(TimedRobot):
                     return
                 
         constants_class = const()
-        sparkmax_safety(self)
-        joystick_init(self, constants_class.driver_controller_type, constants_class.driver_controller_type)
+        sparkmax_safety()
+        joystick_init(self, constants_class.driver_controller_type, constants_class.operator_controller_type)
 
 
 
     def teleopInit(self):
+        CameraServer.startAutomaticCapture()
         pass
     
     def teleopPeriodic(self):
@@ -114,8 +114,8 @@ class MyRobot(TimedRobot):
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
         sparkmax_safety()
         
-        self.drive_class.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive.xbox_logitech_drive(self.driver_joystick)
-        # intake_subsystem.IntakeSubsystem.ps4_intake(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake(self.operator_joystick)
+        self.drive_class.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive_class.xbox_logitech_drive(self.driver_joystick)
+        self.intake.ps4_intake(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else self.intake.xbox_intake(self.operator_joystick)
         # intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
         
         if RobotState.isAutonomous():
@@ -141,7 +141,8 @@ class MyRobot(TimedRobot):
             case self.auto_mode_one:
                 # Drive forward for 2 seconds at half speed
                 if time_elapsed < 2:
-                    self.drive_class.auto_drive(1.0, 1.0)
+                    print(time_elapsed)
+                    self.drive_class.auto_drive(1.0, 0)
     
                 else:
                     self.drive_class.auto_drive(0, 0)
