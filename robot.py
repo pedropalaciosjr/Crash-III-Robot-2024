@@ -15,6 +15,7 @@ from wpilib import (
     )
 import rev
 from cscore import CameraServer
+# from commands2 import CommandPS4Controller
 from robot_code.main.initialization.constants import Constants as const
 from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem, autonomous_subsystem
 
@@ -117,7 +118,7 @@ class MyRobot(TimedRobot):
 
     def teleopInit(self):
         CameraServer.startAutomaticCapture()
-        pass
+        
     
     def teleopPeriodic(self):
         current_time = Timer.getFPGATimestamp()
