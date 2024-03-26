@@ -126,11 +126,9 @@ class MyRobot(TimedRobot):
         sparkmax_safety()
         
         self.drive.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive.xbox_logitech_drive(self.driver_joystick)
-        self.intake.ps4_intake(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else self.intake.xbox_intake(self.operator_joystick)
+        self.intake.intakePeriodic(self.operator_joystick)
         # intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
         
-        if RobotState.isAutonomous():
-            pass
 
     def autonomousInit(self):
         global autonomous_start

@@ -1,5 +1,6 @@
 from wpilib import (
-    DigitalInput
+    DigitalInput,
+    XboxController
 )
 import rev
 from ..initialization import constants as const
@@ -17,20 +18,27 @@ class IntakeSubsystem:
         self.INTAKE.burnFlash()
     
 
-    def ps4_intake(self, operator_controller):
-        print("Testing")
-        self.INTAKE.set(self.constants.INTAKE_SPEED) if (operator_controller.getL1Button()) and (self.INTAKE_SENSOR.get() == False) else \
-        self.INTAKE.set(0)
+    def intakePeriodic(self, operator_controller):
+        if not operator_controller.getLeftBumper() and operator_controller.getRightBumper():
+            self.INTAKE.set(0)
+        else:
+            xbox_intake(operator_controller) if isinstance(operator_controller, XboxController) else ps4_intake(operator_controller)
+            xbox_intake_reverse(operator_controller) if isinstance(operator_controller, XboxController) else ps4_intake_reverse(operator_controller)
+    
+        
+        def ps4_intake(self, operator_controller):
+            if (operator_controller.getL1Button()) and (self.INTAKE_SENSOR.get() == True):
+                self.INTAKE.set(self.constants.INTAKE_SPEED)
 
+        def xbox_intake(self, operator_controller):
+            if (operator_controller.getLeftBumper()) and (self.INTAKE_SENSOR.get() == True):
+                self.INTAKE.set(self.constants.INTAKE_SPEED) 
 
-    def xbox_intake(self, operator_controller):
-        self.INTAKE.set(self.constants.INTAKE_SPEED) if (operator_controller.getLeftBumper()) and (self.INTAKE_SENSOR.get() == True) else \
-        self.INTAKE.set(0)
+        def ps4_intake_reverse(self, operator_controller):
+             if (operator_controller.getR2Button()):
+                 self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED)
 
-    def ps4_intake_reverse(self, operator_controller):
-        self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED) if (operator_controller.getR2Button()) and (self.INTAKE_SENSOR.get() == False) else \
-        self.INTAKE.set(0)
-
-    def xbox_intake_reverse(self, operator_controller):
-        self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED) if (operator_controller.getLeftBumper()) and (self.INTAKE_SENSOR.get() == False) else \
-        self.INTAKE.set(0)
+        def xbox_intake_reverse(self, operator_controller):
+            if (operator_controller.getRightBumper()):
+                self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED)
+        

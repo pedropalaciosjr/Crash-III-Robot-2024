@@ -29,7 +29,7 @@ class Constants:
 
         self.ARM_LEFT_CURRENT, self.ARM_RIGHT_CURRENT, self.SHOOTER_LEFT_CURRENT, self.SHOOTER_RIGHT_CURRENT, self.INTAKE_CURRENT = (40, 40, 40, 40, 40)
         self.ARM_LEFT_SPEED, self.ARM_RIGHT_SPEED, self.SHOOTER_LEFT_SPEED, self.SHOOTER_RIGHT_SPEED, self.INTAKE_SPEED = (0, 0, 0, 0, 0.25)
-        self.INTAKE_REVERSE_SPEED = 0.2
+        self.INTAKE_REVERSE_SPEED = -self.INTAKE_SPEED 
 
         self.CLIMBER_CURRENT, self.CLIMBER_SPEED = (100, 0)
 
@@ -38,7 +38,5 @@ class Constants:
 
     
     def autonomous_constants(self):
-        global AUTONOMOUS_MODE
-        AUTONOMOUS_MODE = "null"
-
+        pass
         
