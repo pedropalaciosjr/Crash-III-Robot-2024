@@ -7,10 +7,12 @@ class ArmSubsystem:
     def __init__(self):
         self.ARM_LEFT, self.ARM_RIGHT = rev.CANSparkMax(const.Constants().ARM_LEFT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(const.Constants().ARM_RIGHT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
         
-        # self.ARM_LEFT.setSmartCurrentLimit(const.Constants().ARM_CURRENT)
-        # self.ARM_RIGHT.setSmartCurrentLimit(const.Constants().ARM_CURRENT)
+        self.ARM_LEFT.setSmartCurrentLimit(const.Constants().ARM_CURRENT)
+        self.ARM_RIGHT.setSmartCurrentLimit(const.Constants().ARM_CURRENT)
         
-        # self.ARM = MotorControllerGroup(self.ARM_LEFT, self.ARM_RIGHT)
+        self.ARM = MotorControllerGroup(self.ARM_LEFT, self.ARM_RIGHT)
+
+        
 
         # self.ARM_THROUGHBORE_ENCODER = DutyCycleEncoder(2)
         # self.ARM_PID = self.ARM.getPIDController()
