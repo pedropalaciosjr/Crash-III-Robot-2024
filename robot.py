@@ -21,6 +21,7 @@ from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, clim
 class MyRobot(TimedRobot):
     def robotInit(self):
         global sparkmax_safety
+        global stop
         global constants_class
         global drive_class
 
@@ -98,7 +99,16 @@ class MyRobot(TimedRobot):
                 if state:
                     reportWarning("BROWNOUT DETECTED!")
                     return
-                
+        
+        def stop(self, motor_controllers):
+            try:
+                for sparkmax in motor_controllers:
+                    sparkmax.stopMotor()
+            except (TypeError):
+                print("'stop' function invoked with invalid arguments. This function expects only iterable objects as arguments.")
+            
+            return
+
         constants_class = const()
         sparkmax_safety()
         joystick_init(self, constants_class.driver_controller_type, constants_class.operator_controller_type)
@@ -145,7 +155,12 @@ class MyRobot(TimedRobot):
                     self.drive_class.auto_drive(1.0, 0)
     
                 else:
-                    self.drive_class.auto_drive(0, 0)
+                    stop([
+                        self.drive_class.LEFT_FRONT, 
+                        self.drive_class.LEFT_REAR, 
+                        self.drive_class.RIGHT_FRONT, 
+                        self.drive_class.RIGHT_REAR, 
+                    ])
             case self.auto_mode_two:
                 pass
             case self.auto_mode_three:

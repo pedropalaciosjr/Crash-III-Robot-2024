@@ -43,3 +43,10 @@ class DifferentialDriveSubsystem:
 
     def auto_drive(self, speed, rotation):
         self.DIFFERENTIAL_DRIVE.arcadeDrive(speed, rotation)
+    
+    def stop(motor_controllers):
+        try:
+            for sparkmax in motor_controllers:
+                sparkmax.stopMotor()
+        except TypeError:
+            print("'stop' function invoked with invalid arguments. This function expects only iterable objects as arguments.")
