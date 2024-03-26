@@ -23,9 +23,9 @@ class MyRobot(TimedRobot):
         global sparkmax_safety
         global stop
         global constants_class
-        global drive_class
+        global drive
 
-        self.drive_class = drivetrain_subsystem.DifferentialDriveSubsystem()
+        self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
         self.arm = arm_subsystem.ArmSubsystem()
         self.shooter = shooter_subsystem.ShooterSubsystem()
         self.intake = intake_subsystem.IntakeSubsystem()
@@ -33,10 +33,10 @@ class MyRobot(TimedRobot):
         self.auto = autonomous_subsystem.AutonomousSubsystem()
 
         self.SPARKMAX_CONTROLLERS = [
-            self.drive_class.LEFT_FRONT, 
-            self.drive_class.LEFT_REAR, 
-            self.drive_class.RIGHT_FRONT, 
-            self.drive_class.RIGHT_REAR, 
+            self.drive.LEFT_FRONT, 
+            self.drive.LEFT_REAR, 
+            self.drive.RIGHT_FRONT, 
+            self.drive.RIGHT_REAR, 
             self.arm.ARM_LEFT, 
             self.arm.ARM_RIGHT,
             self.shooter.SHOOTER_LEFT,
@@ -124,7 +124,7 @@ class MyRobot(TimedRobot):
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
         sparkmax_safety()
         
-        self.drive_class.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive_class.xbox_logitech_drive(self.driver_joystick)
+        self.drive.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive.xbox_logitech_drive(self.driver_joystick)
         self.intake.ps4_intake(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else self.intake.xbox_intake(self.operator_joystick)
         # intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
         
@@ -152,14 +152,14 @@ class MyRobot(TimedRobot):
                 # Drive forward for 2 seconds at half speed
                 if time_elapsed < 2:
                     print(time_elapsed)
-                    self.drive_class.auto_drive(1.0, 0)
+                    self.drive.auto_drive(1.0, 0)
     
                 else:
                     stop([
-                        self.drive_class.LEFT_FRONT, 
-                        self.drive_class.LEFT_REAR, 
-                        self.drive_class.RIGHT_FRONT, 
-                        self.drive_class.RIGHT_REAR, 
+                        self.drive.LEFT_FRONT, 
+                        self.drive.LEFT_REAR, 
+                        self.drive.RIGHT_FRONT, 
+                        self.drive.RIGHT_REAR, 
                     ])
             case self.auto_mode_two:
                 pass
