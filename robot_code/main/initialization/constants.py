@@ -27,7 +27,7 @@ class Constants:
         self.DIFFERENTIAL_AUTONOMOUS_ROTATION_SPEED = 1
 
 
-        self.ARM_CURRENT, self.SHOOTER_CURRENT, self.INTAKE_CURRENT = (40, 40, 40)
+        self.ARM_CURRENT, self.SHOOTER_CURRENT, self.INTAKE_CURRENT = (40, 50, 40)
         self.ARM_SPEED, self.SHOOTER_SPEED, self.INTAKE_SPEED = (0, 1, 0.25)
         self.INTAKE_REVERSE_SPEED = -self.INTAKE_SPEED 
 

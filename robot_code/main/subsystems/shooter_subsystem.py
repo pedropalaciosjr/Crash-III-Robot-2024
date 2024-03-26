@@ -4,10 +4,13 @@ from wpilib import MotorControllerGroup, XboxController
 
 class ShooterSubsystem:
     def __init__(self):
-        self.SHOOTER_LEFT, self.SHOOTER_RIGHT = rev.CANSparkMax(const.Constants().SHOOTER_LEFT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(const.Constants().SHOOTER_RIGHT_CAN_ID, rev.CANSparkLowLevel.kBrushless)
+        self.SHOOTER_LEFT, self.SHOOTER_RIGHT = rev.CANSparkMax(const.Constants().SHOOTER_LEFT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(const.Constants().SHOOTER_RIGHT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
 
-        self.SHOOTER_LEFT.setSmartCurrentLimit(const.Constants().SHOOTER_LEFT_CURRENT)
-        self.SHOOTER_RIGHT.setSmartCurrentLimit(const.Constants().SHOOTER_RIGHT_CURRENT)
+        self.SHOOTER_LEFT.setSmartCurrentLimit(const.Constants().SHOOTER_CURRENT)
+        self.SHOOTER_RIGHT.setSmartCurrentLimit(const.Constants().SHOOTER_CURRENT)
+
+        self.SHOOTER_RIGHT.setInverted(False)
+        self.SHOOTER_LEFT.setInverted(True)
 
         self.SHOOTER_LEFT.burnFlash()
         self.SHOOTER_RIGHT.burnFlash()
