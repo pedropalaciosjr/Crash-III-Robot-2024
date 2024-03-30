@@ -15,21 +15,17 @@ class Constants:
         self.LEFT_REAR_CAN_ID = 2
         self.RIGHT_FRONT_CAN_ID = 3
         self.RIGHT_REAR_CAN_ID = 4
-        self.ARM_LEFT_CAN_ID = 5
-        self.ARM_RIGHT_CAN_ID = 6
-        self.SHOOTER_LEFT_CAN_ID = 7
-        self.SHOOTER_RIGHT_CAN_ID = 8
-        self.INTAKE_CAN_ID = 9
-        self.CLIMBER_CAN_ID = 10
+        self.FEEDER_WHEEL_CAN_ID = 5
+        self.LAUNCH_WHEEL_CAN_ID = 6
+        self.FEEDER_CLAW_CAN_ID = 7
 
         self.DIFFERENTIAL_DRIVE_CURRENT = 50
         self.DIFFERENTIAL_AUTONOMOUS_DRIVE_SPEED = 1
         self.DIFFERENTIAL_AUTONOMOUS_ROTATION_SPEED = 1
 
 
-        self.ARM_CURRENT, self.SHOOTER_CURRENT, self.INTAKE_CURRENT = (40, 50, 40)
-        self.ARM_SPEED, self.SHOOTER_SPEED, self.INTAKE_SPEED = (0, 1, 0.25)
-        self.INTAKE_REVERSE_SPEED = -self.INTAKE_SPEED 
+        self.FEEDER_WHEEL_CURRENT, self.LAUNCH_WHEEL_CURRENT, self.FEEDER_CLAW_CAN_ID = (40, 50, 40)
+        self.FEEDER_WHEEL_SPEED, self.LAUNCH_WHEEL_SPEED, self.FEEDER_CLAW_SPEED = (0.5, 0.5, 0.5)
 
         self.CLIMBER_CURRENT, self.CLIMBER_SPEED = (40, 0)
 
