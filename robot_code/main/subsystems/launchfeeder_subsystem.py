@@ -4,19 +4,19 @@ from wpilib import MotorControllerGroup, XboxController
 
 class LaunchFeederSubsystem:
     def __init__(self):
-        self.SHOOTER_LEFT, self.SHOOTER_RIGHT = rev.CANSparkMax(const.Constants().SHOOTER_LEFT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(const.Constants().SHOOTER_RIGHT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
+        self.FEEDER_WHEEL, self.LAUNCH_WHEEL = rev.CANSparkMax(const.Constants().FEEDER_WHEEL_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(const.Constants().LAUNCH_WHEEL_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
 
         
-        self.SHOOTER_LEFT.setSmartCurrentLimit(const.Constants().SHOOTER_CURRENT)
-        self.SHOOTER_RIGHT.setSmartCurrentLimit(const.Constants().SHOOTER_CURRENT)
+        self.FEEDER_WHEEL.setSmartCurrentLimit(const.Constants().FEEDER_WHEEL_CURRENT)
+        self.LAUNCH_WHEEL.setSmartCurrentLimit(const.Constants().LAUNCH_WHEEL_CURRENT)
 
-        self.SHOOTER_RIGHT.setInverted(False)
-        self.SHOOTER_LEFT.setInverted(True)
+        self.FEEDER_WHEEL.setInverted(False)
+        self.LAUNCH_WHEEL.setInverted(True)
 
-        self.SHOOTER_LEFT.burnFlash()
-        self.SHOOTER_RIGHT.burnFlash()
+        self.FEEDER_WHEEL.burnFlash()
+        self.LAUNCH_WHEEL.burnFlash()
 
-        self.SHOOTER = MotorControllerGroup(self.SHOOTER_LEFT, self.SHOOTER_RIGHT)
+        self.LAUNCH_FEEDER = MotorControllerGroup(self.FEEDER_WHEEL, self.LAUNCH_WEHEL)
 
     def shooterPeriodic(self, operator_controller):
         if isinstance(operator_controller, XboxController):
