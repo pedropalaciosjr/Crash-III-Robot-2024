@@ -18,7 +18,7 @@ import rev
 from cscore import CameraServer
 # from commands2 import CommandPS4Controller
 from robot_code.main.initialization.constants import Constants as const
-from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem, autonomous_subsystem
+from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, feeder_subsystem, autonomous_subsystem, launchfeeder_subsystem
 
 class MyRobot(TimedRobot):
     def robotInit(self):
@@ -28,9 +28,8 @@ class MyRobot(TimedRobot):
         global drive
 
         self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
-        self.arm = arm_subsystem.ArmSubsystem()
-        self.shooter = shooter_subsystem.ShooterSubsystem()
-        self.intake = intake_subsystem.IntakeSubsystem()
+        self.shooter = launchfeeder_subsystem.LaunchSubsystem()
+        self.feeder = feeder_subsystem.FeederSubsystem()
         self.climber = climber_subsystem.ClimberSubsystem()
         self.auto = autonomous_subsystem.AutonomousSubsystem()
 
