@@ -19,7 +19,7 @@ class IntakeSubsystem:
     
 
     def intakePeriodic(self, operator_controller):
-        def ps4_intake(self, operator_controller):
+        def ps5_intake(self, operator_controller):
             if (operator_controller.getL1Button()) and (self.INTAKE_SENSOR.get() == True):
                 self.INTAKE.set(self.constants.INTAKE_SPEED)
 
@@ -28,7 +28,7 @@ class IntakeSubsystem:
                 self.INTAKE.set(self.constants.INTAKE_SPEED) 
 
 
-        def ps4_intake_reverse(self, operator_controller):
+        def ps5_intake_reverse(self, operator_controller):
             if (operator_controller.getR2Button()):
                 self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED)
         
@@ -42,12 +42,12 @@ class IntakeSubsystem:
             if isinstance(operator_controller, XboxController):
                 xbox_intake(self, operator_controller)
             else:
-                ps4_intake(self, operator_controller)
+                ps5_intake(self, operator_controller)
 
             if isinstance(operator_controller, XboxController):
                 xbox_intake_reverse(self, operator_controller)
             else:
-                ps4_intake_reverse(self, operator_controller)
+                ps5_intake_reverse(self, operator_controller)
 
 
 

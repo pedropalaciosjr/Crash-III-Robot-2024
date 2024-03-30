@@ -11,7 +11,8 @@ from wpilib import (
     event,
     RobotState,
     reportWarning,
-    SendableChooser
+    SendableChooser,
+    PS5Controller
     )
 import rev
 from cscore import CameraServer
@@ -59,8 +60,8 @@ class MyRobot(TimedRobot):
 
         
         def joystick_init(self, driver_controller_type = "null", operator_controller_type= "null" ):
-            self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (XboxController(0))
-            self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (XboxController(1))
+            self.driver_joystick = PS5Controller(0) if (driver_controller_type) == "PS5" else (XboxController(0))
+            self.operator_joystick = PS5Controller(1) if (operator_controller_type) == "PS5" else (XboxController(1))
 
         def sparkmax_safety():
             motor_temperatures = []
