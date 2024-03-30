@@ -6,7 +6,7 @@ class Constants:
         self.RIGHT_REAR_CAN_ID = 4
         self.FEEDER_WHEEL_CAN_ID = 5
         self.LAUNCH_WHEEL_CAN_ID = 6
-        self.CLA_CAN_ID = 7
+        self.CLAW_CAN_ID = 7
 
         self.DIFFERENTIAL_DRIVE_CURRENT = 50
         self.DIFFERENTIAL_AUTONOMOUS_DRIVE_SPEED = 1
