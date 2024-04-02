@@ -15,7 +15,9 @@ from wpilib import (
     PS5Controller
     )
 import rev
+import commands2
 from cscore import CameraServer
+import commands2
 # from commands2 import CommandPS4Controller
 from robot_code.main.initialization.constants import Constants as const
 from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, feeder_subsystem, autonomous_subsystem, launchfeeder_subsystem
@@ -28,8 +30,7 @@ class MyRobot(TimedRobot):
         global drive
 
         self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
-        self.shooter = launchfeeder_subsystem.LaunchSubsystem()
-        self.feeder = feeder_subsystem.FeederSubsystem()
+        self.launch_feed = launchfeeder_subsystem.LauncherFeederSubsystem()
         self.climber = climber_subsystem.ClimberSubsystem()
         self.auto = autonomous_subsystem.AutonomousSubsystem()
 
@@ -114,7 +115,18 @@ class MyRobot(TimedRobot):
         sparkmax_safety()
         joystick_init(self, constants_class.driver_controller_type, constants_class.operator_controller_type)
 
+        commands2.CommandScheduler.setDefaultCommand(drivetrain_subsystem, self.drive.drive_robot(self.driver_joystick))
+        commands2.button.Trigger(self.driver_joystick.getSquareButton()).whileTrue(commands2.ParallelCommandGroup(self.launch_feed.launch(-constants_class.FEEDER_WHEEL_SPEED), \
+                                                         self.launch_feed.feeder(-constants_class.FEEDER_WHEEL_SPEED)))
+        commands2.button.Trigger(self.driver_joystick.getTriangleButton()).whileTrue(self.launch_feed.feeder(constants_class.FEEDER_WHEEL_SPEED))
+        commands2.button.Trigger(self.driver_joystick.getCircleButton()).whileTrue(self.launch_feed.launch(constants_class.LAUNCH_WHEEL_SPEED))
 
+
+    def robotPeriodic(self):
+        cmd_scheduler = commands2.CommandScheduler.getInstance()
+        cmd_scheduler.run()
+
+        pass
 
     def teleopInit(self):
         CameraServer.startAutomaticCapture()
@@ -125,7 +137,8 @@ class MyRobot(TimedRobot):
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
         sparkmax_safety()
         
-        self.drive.drive_robot(self.driver_joystick)
+        # self.drive.drive_robot(self.driver_joystick)
+
         self.intake.intakePeriodic(self.operator_joystick)
         self.shooter.shooterPeriodic(self.operator_joystick)
         # intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)

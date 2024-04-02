@@ -13,12 +13,12 @@ class Constants:
         self.DIFFERENTIAL_AUTONOMOUS_ROTATION_SPEED = 1
 
 
-        self.FEEDER_WHEEL_CURRENT, self.LAUNCH_WHEEL_CURRENT, self.CLAW_CAN_ID = (40, 50, 40)
+        self.FEEDER_WHEEL_CURRENT, self.LAUNCH_WHEEL_CURRENT, self.CLAW_CURRENT = (40, 50, 40)
         self.FEEDER_WHEEL_SPEED, self.LAUNCH_WHEEL_SPEED, self.CLAW_SPEED = (0.5, 0.5, 0.5)
 
         self.CLIMBER_CURRENT, self.CLIMBER_SPEED = (40, 0)
 
-        self.driver_controller_type, self.operator_controller_type = ("PS5", "Xbox")
+        self.driver_controller_type, self.operator_controller_type = ("PS5", "PS5")
 
 
     

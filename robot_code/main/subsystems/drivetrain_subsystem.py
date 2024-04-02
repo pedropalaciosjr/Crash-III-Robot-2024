@@ -3,6 +3,7 @@ import rev
 from wpilib import event, drive, MotorControllerGroup
 from ..initialization import constants as const
 import time
+import commands2
 
 class DifferentialDriveSubsystem:
     def __init__(self):
@@ -36,7 +37,7 @@ class DifferentialDriveSubsystem:
 
 
     def drive_robot(self, driver_joystick):
-        self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX())
+        return commands2.RunCommand(self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX()))
 
     # def xbox_logitech_drive(self, driver_joystick):
     #     self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX())
