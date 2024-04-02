@@ -139,8 +139,8 @@ class MyRobot(TimedRobot):
         
         # self.drive.drive_robot(self.driver_joystick)
 
-        self.intake.intakePeriodic(self.operator_joystick)
-        self.shooter.shooterPeriodic(self.operator_joystick)
+        # self.intake.intakePeriodic(self.operator_joystick)
+        # self.shooter.shooterPeriodic(self.operator_joystick)
         # intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
         
 
