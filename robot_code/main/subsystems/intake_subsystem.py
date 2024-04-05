@@ -29,14 +29,14 @@ class IntakeSubsystem:
 
 
         def ps4_intake_reverse(self, operator_controller):
-            if (operator_controller.getR2Button()):
+            if (operator_controller.getR1Button()):
                 self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED)
         
         def xbox_intake_reverse(self, operator_controller):
             if (operator_controller.getRightBumper()):
                 self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED)
 
-        if not operator_controller.getLeftBumper() and not operator_controller.getRightBumper():
+        if not operator_controller.getL1Button() and not operator_controller.getR1Button():
             self.INTAKE.set(0)
         else:
             if isinstance(operator_controller, XboxController):

@@ -33,10 +33,15 @@ class Constants:
 
         self.CLIMBER_CURRENT, self.CLIMBER_SPEED = (40, 0)
 
-        self.driver_controller_type, self.operator_controller_type = ("PS4", "Xbox")
+        self.driver_controller_type, self.operator_controller_type = ("PS4", "PS4")
+
+        self.STATIC_GAIN = 0
+        self.GRAVITY_GAIN = 0.48
+        self.VELOCITY_GAIN = 4.39
+        self.ACCELERATION_GAIN = 0.03
 
 
     
-    def autonomous_constants(self):
+    def auto_mode(self):
         pass
         

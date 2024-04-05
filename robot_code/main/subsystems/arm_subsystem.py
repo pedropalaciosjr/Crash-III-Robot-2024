@@ -5,14 +5,22 @@ from wpilib import DutyCycleEncoder, MotorControllerGroup, SmartDashboard
 
 class ArmSubsystem:
     def __init__(self):
-        self.ARM_LEFT, self.ARM_RIGHT = rev.CANSparkMax(const.Constants().ARM_LEFT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(const.Constants().ARM_RIGHT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
+        constants = const.Constants()
+        self.ARM_LEFT, self.ARM_RIGHT = rev.CANSparkMax(constants.ARM_LEFT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(constants.ARM_RIGHT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
         
-        self.ARM_LEFT.setSmartCurrentLimit(const.Constants().ARM_CURRENT)
-        self.ARM_RIGHT.setSmartCurrentLimit(const.Constants().ARM_CURRENT)
+        self.ARM_LEFT.setSmartCurrentLimit(constants.ARM_CURRENT)
+        self.ARM_RIGHT.setSmartCurrentLimit(constants.ARM_CURRENT)
         
-        self.ARM = MotorControllerGroup(self.ARM_LEFT, self.ARM_RIGHT)
+    
 
-        
+        # self.PID = wpimath.PIDController(0.015, 0, 0.001)
+        # self.FEED_FORWARD = wpimath.ArmFeedForward(constants.STATIC_GAIN, constants.GRAVITY_GAIN, constants.VELOCITY_GAIN, constants.ACCELERATION_GAIN)
+
+        # self.ARM = MotorControllerGroup(self.ARM_LEFT, self.ARM_RIGHT)
+        # self.FEED_FORWARD_CALC = self.FEED_FORWARD.calculate(position, velocity, acceleration)
+
+
+
 
         # self.ARM_THROUGHBORE_ENCODER = DutyCycleEncoder(2)
         # self.ARM_PID = self.ARM.getPIDController()

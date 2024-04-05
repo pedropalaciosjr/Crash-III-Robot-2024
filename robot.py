@@ -16,14 +16,13 @@ from wpilib import (
 import rev
 from cscore import CameraServer
 # from commands2 import CommandPS4Controller
-from robot_code.main.initialization.constants import Constants as const
+from robot_code.main.initialization.constants import Constants
 from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem, autonomous_subsystem
 
 class MyRobot(TimedRobot):
     def robotInit(self):
         global sparkmax_safety
         global stop
-        global constants_class
         global drive
 
         self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
@@ -32,6 +31,7 @@ class MyRobot(TimedRobot):
         self.intake = intake_subsystem.IntakeSubsystem()
         self.climber = climber_subsystem.ClimberSubsystem()
         self.auto = autonomous_subsystem.AutonomousSubsystem()
+        self.constants_class = Constants()
 
         self.SPARKMAX_CONTROLLERS = [
             self.drive.LEFT_FRONT, 
@@ -110,9 +110,8 @@ class MyRobot(TimedRobot):
             
             return
 
-        constants_class = const()
         sparkmax_safety()
-        joystick_init(self, constants_class.driver_controller_type, constants_class.operator_controller_type)
+        joystick_init(self, self.constants_class.driver_controller_type, self.constants_class.operator_controller_type)
 
 
 
@@ -146,6 +145,8 @@ class MyRobot(TimedRobot):
         time_elapsed = time_elapsed(autonomous_periodic, autonomous_start)
 
         sparkmax_safety(self)
+
+        # self.arm.ARM_LEFT.set(self.arm.PID.calculate(encoder.getDistance(), setpoint))
 
         match self.auto_mode_selected:
             case self.auto_mode_one:
