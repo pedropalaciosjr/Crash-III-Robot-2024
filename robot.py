@@ -15,12 +15,11 @@ from wpilib import (
     PS5Controller
     )
 import rev
-import commands2
 from cscore import CameraServer
 import commands2
 # from commands2 import CommandPS4Controller
 from robot_code.main.initialization.constants import Constants as const
-from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, feeder_subsystem, autonomous_subsystem, launchfeeder_subsystem
+from robot_code.main.subsystems import drivetrain_subsystem, climber_subsystem, autonomous_subsystem, launchfeeder_subsystem
 
 class MyRobot(TimedRobot):
     def robotInit(self):
@@ -30,7 +29,7 @@ class MyRobot(TimedRobot):
         global drive
 
         self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
-        self.launch_feed = launchfeeder_subsystem.LauncherFeederSubsystem()
+        self.launch_feed = launchfeeder_subsystem.LaunchFeederSubsystem()
         self.climber = climber_subsystem.ClimberSubsystem()
         self.auto = autonomous_subsystem.AutonomousSubsystem()
 
@@ -39,11 +38,9 @@ class MyRobot(TimedRobot):
             self.drive.LEFT_REAR, 
             self.drive.RIGHT_FRONT, 
             self.drive.RIGHT_REAR, 
-            self.arm.ARM_LEFT, 
-            self.arm.ARM_RIGHT,
-            self.shooter.SHOOTER_LEFT,
-            self.shooter.SHOOTER_RIGHT,
-            self.intake.INTAKE,
+            self.launch_feed.FEEDER_WHEEL,
+            self.launch_feed.LAUNCH_WHEEL,
+            self.launch_feed.CLAW,
             # self.climber.CLIMBER
         ]
         self.auto_mode_one = "Auto Mode One"
@@ -60,10 +57,10 @@ class MyRobot(TimedRobot):
 
         
         def joystick_init(self, driver_controller_type = "null", operator_controller_type= "null" ):
-            self.driver_joystick = PS5Controller(0) if (driver_controller_type) == "PS5" else (XboxController(0))
-            self.operator_joystick = PS5Controller(1) if (operator_controller_type) == "PS5" else (XboxController(1))
+            self.driver_joystick = PS4Controller(constants_class.DRIVER_CONTROLLER_PORT) if (driver_controller_type) == "PS4" else (XboxController(constants_class.DRIVER_CONTROLLER_PORT))
+            self.operator_joystick = PS4Controller(constants_class.OPERATOR_CONTROLLER_PORT) if (operator_controller_type) == "PS4" else (XboxController(constants_class.OPERATOR_CONTROLLER_PORT))
 
-        def sparkmax_safety():
+        def sparkmax_safety(self):
             motor_temperatures = []
             brownout_faults = []
             for sparkmax in self.SPARKMAX_CONTROLLERS:
@@ -71,30 +68,26 @@ class MyRobot(TimedRobot):
                 brownout_faults.append(sparkmax.getFault(rev.CANSparkBase.FaultID.kBrownout))
             
             left_front_motor_temperature, left_rear_motor_temperature, right_front_motor_temperature, right_rear_motor_temperature,\
-                arm_left_temperature, arm_right_temperature, shooter_left_temperature, shooter_right_temperature, intake_temperature = motor_temperatures
-            left_front_brownout, left_rear_brownout, right_front_brownout, right_rear_brownout, arm_left_brownout, \
-                 arm_right_brownout, shooter_left_brownout, shooter_right_brownout, intake_brownout = brownout_faults
+                feeder_motor_temperature, launch_motor_temperature, claw_motor_temperature = motor_temperatures
+            left_front_brownout, left_rear_brownout, right_front_brownout, right_rear_brownout, feeder_brownout, \
+                 launch_brownout, claw_brownout = brownout_faults
             
             SmartDashboard.putNumber("Left Front Motor Temperature (F)", left_front_motor_temperature)
             SmartDashboard.putNumber("Left Rear Motor Temperature (F)", left_rear_motor_temperature)
             SmartDashboard.putNumber("Right Front Motor Temperature (F)", right_front_motor_temperature)
             SmartDashboard.putNumber("Right Rear Motor Temperature (F)", right_rear_motor_temperature)
-            SmartDashboard.putNumber("Arm Left Motor Temperature (F)", arm_left_temperature)
-            SmartDashboard.putNumber("Arm Right Motor Temperature (F)", arm_right_temperature)
-            SmartDashboard.putNumber("Shooter Left Motor Temperature (F)", shooter_left_temperature)
-            SmartDashboard.putNumber("Shooter Right Motor Temperature (F)", shooter_right_temperature)
-            SmartDashboard.putNumber("Intake Motor Temperature (F)", intake_temperature)
+            SmartDashboard.putNumber("Arm Left Motor Temperature (F)", feeder_motor_temperature)
+            SmartDashboard.putNumber("Arm Right Motor Temperature (F)", launch_motor_temperature)
+            SmartDashboard.putNumber("Shooter Left Motor Temperature (F)", claw_motor_temperature)
             # SmartDashboard.putNumber("Climber Right Motor Temperature (F)", climber_temperature)
 
             SmartDashboard.putBoolean("Left Front Brownout Detected:", left_front_brownout)
             SmartDashboard.putBoolean("Left Rear Brownout Detected:", left_rear_brownout)
             SmartDashboard.putBoolean("Right Front Brownout Detected:", right_front_brownout)
             SmartDashboard.putBoolean("Right Rear Brownout Detected:", right_rear_brownout)
-            SmartDashboard.putBoolean("Arm Left Brownout Detected:", arm_left_brownout)
-            SmartDashboard.putBoolean("Arm Right Brownout Detected:", arm_right_brownout)
-            SmartDashboard.putBoolean("Shooter Left Brownout Detected:", shooter_left_brownout)
-            SmartDashboard.putBoolean("Shooter Right Brownout Detected:", shooter_right_brownout)
-            SmartDashboard.putBoolean("Intake Brownout Detected:", intake_brownout)
+            SmartDashboard.putBoolean("Arm Left Brownout Detected:", feeder_brownout)
+            SmartDashboard.putBoolean("Arm Right Brownout Detected:", launch_brownout)
+            SmartDashboard.putBoolean("Shooter Left Brownout Detected:", claw_brownout)
             # SmartDashboard.putBoolean("Climber Brownout Detected:", climber_brownout)
 
             for state in brownout_faults:
@@ -112,34 +105,36 @@ class MyRobot(TimedRobot):
             return
 
         constants_class = const()
-        sparkmax_safety()
+        sparkmax_safety(self)
         joystick_init(self, constants_class.driver_controller_type, constants_class.operator_controller_type)
 
-        commands2.CommandScheduler.setDefaultCommand(drivetrain_subsystem, self.drive.drive_robot(self.driver_joystick))
-        commands2.button.Trigger(self.driver_joystick.getSquareButton()).whileTrue(commands2.ParallelCommandGroup(self.launch_feed.launch(-constants_class.FEEDER_WHEEL_SPEED), \
-                                                         self.launch_feed.feeder(-constants_class.FEEDER_WHEEL_SPEED)))
-        commands2.button.Trigger(self.driver_joystick.getTriangleButton()).whileTrue(self.launch_feed.feeder(constants_class.FEEDER_WHEEL_SPEED))
-        commands2.button.Trigger(self.driver_joystick.getCircleButton()).whileTrue(self.launch_feed.launch(constants_class.LAUNCH_WHEEL_SPEED))
+        # self.drive.setDefaultCommand(self.drive.drive_robot(self.driver_joystick, self.drive))
+        # commands2.button.Trigger(self.driver_joystick.getSquareButton()).whileTrue(commands2.ParallelCommandGroup(self.launch_feed.launch(-constants_class.FEEDER_WHEEL_SPEED, self.launch_feed), \
+        #                                                  self.launch_feed.feeder(-constants_class.FEEDER_WHEEL_SPEED, self.launch_feed)))
+        # commands2.button.Trigger(self.driver_joystick.getTriangleButton()).whileTrue(self.launch_feed.feeder(constants_class.FEEDER_WHEEL_SPEED, self.launch_feed))
+        # commands2.button.Trigger(self.driver_joystick.getCircleButton()).whileTrue(self.launch_feed.launch(constants_class.LAUNCH_WHEEL_SPEED, self.launch_feed))
 
 
     def robotPeriodic(self):
-        cmd_scheduler = commands2.CommandScheduler.getInstance()
-        cmd_scheduler.run()
+        # commands2.CommandScheduler.getInstance().run()
 
         pass
 
     def teleopInit(self):
-        CameraServer.startAutomaticCapture()
+        pass
+        # CameraServer.startAutomaticCapture()
         
     
     def teleopPeriodic(self):
         current_time = Timer.getFPGATimestamp()
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
-        sparkmax_safety()
+        sparkmax_safety(self)
+
+        self.drive.drive_robot(self.driver_joystick, current_time)
+        self.launch_feed.launchfeed_robot(self.operator_joystick)
         
         # self.drive.drive_robot(self.driver_joystick)
 
-        # self.intake.intakePeriodic(self.operator_joystick)
         # self.shooter.shooterPeriodic(self.operator_joystick)
         # intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
         
@@ -178,3 +173,6 @@ class MyRobot(TimedRobot):
                 pass
             case self.auto_mode_three:
                 pass
+    def testInit(self):
+        pass
+        # commands2.CommandScheduler.getInstance().cancelAll()

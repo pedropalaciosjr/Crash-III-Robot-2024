@@ -1,13 +1,16 @@
 import rev
 
-from wpilib import event, drive, MotorControllerGroup
+from wpilib import event, drive, MotorControllerGroup, Timer
 from ..initialization import constants as const
 import time
 import commands2
 
-class DifferentialDriveSubsystem:
+class DifferentialDriveSubsystem():
     def __init__(self):
         constants_class = const.Constants()
+
+        # super().__init__()
+
         self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(constants_class.LEFT_FRONT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(constants_class.LEFT_REAR_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
         self.RIGHT_FRONT, self.RIGHT_REAR = rev.CANSparkMax(constants_class.RIGHT_FRONT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(constants_class.RIGHT_REAR_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
 
@@ -15,6 +18,11 @@ class DifferentialDriveSubsystem:
         self.RIGHT_FRONT.setInverted(False)
         self.LEFT_REAR.setInverted(False)
         self.RIGHT_REAR.setInverted(False)
+
+        # self.LEFT_FRONT.GetEncoder()
+        # self.LEFT_REAR.GetEncoder()
+        # self.RIGHT_FRONT.GetEncoder()
+        # self.RIGHT_REAR.GetEncoder()
     
         self.LEFT_FRONT.setSmartCurrentLimit(constants_class.DIFFERENTIAL_DRIVE_CURRENT)
         self.LEFT_REAR.setSmartCurrentLimit(constants_class.DIFFERENTIAL_DRIVE_CURRENT)
@@ -36,8 +44,29 @@ class DifferentialDriveSubsystem:
 
 
 
-    def drive_robot(self, driver_joystick):
-        return commands2.RunCommand(self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX()))
+    # def drive_robot(self, driver_joystick, drive_class):
+    #     return commands2.cmd.run(
+    #         lambda : self.DIFFERENTIAL_DRIVE.arcadeDrive(
+    #             driver_joystick.getLeftY(), driver_joystick.getRightX()
+    #             ), 
+    #             drive_class)
+    
+    def drive_robot(self, driver_joystick, current_time):
+        time_elapsed = lambda final, init : final - init
+        multiplier = 0.67
+        self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY()*multiplier, driver_joystick.getRightX()*multiplier)
+
+        if driver_joystick.getTouchpadPressed():
+            nitro_start = Timer.getFPGATimestamp()
+
+            if time_elapsed(nitro_start, current_time) < 5:
+                print("Nitro Enabled!")
+                multiplier = 1
+            else:
+                multiplier = 0.67
+            
+
+
 
     # def xbox_logitech_drive(self, driver_joystick):
     #     self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX())

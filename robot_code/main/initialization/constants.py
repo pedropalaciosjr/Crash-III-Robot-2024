@@ -8,8 +8,9 @@ class Constants:
         self.LAUNCH_WHEEL_CAN_ID = 6
         self.CLAW_CAN_ID = 7
 
-        self.DIFFERENTIAL_DRIVE_CURRENT = 50
+        self.DIFFERENTIAL_DRIVE_CURRENT = 60
         self.DIFFERENTIAL_AUTONOMOUS_DRIVE_SPEED = 1
+        self.DIFFERENTIAL_NITRO_DRIVE_MULTIPLIER = 1
         self.DIFFERENTIAL_AUTONOMOUS_ROTATION_SPEED = 1
 
 
@@ -18,7 +19,8 @@ class Constants:
 
         self.CLIMBER_CURRENT, self.CLIMBER_SPEED = (40, 0)
 
-        self.driver_controller_type, self.operator_controller_type = ("PS5", "PS5")
+        self.driver_controller_type, self.operator_controller_type = ("PS4", "PS4")
+        self.DRIVER_CONTROLLER_PORT, self.OPERATOR_CONTROLLER_PORT = (0, 1)
 
 
     
