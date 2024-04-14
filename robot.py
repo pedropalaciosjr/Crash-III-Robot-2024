@@ -164,7 +164,7 @@ class MyRobot(TimedRobot):
                 # Drive forward for 2 seconds at half speed
                 if time_elapsed < 2:
                     print(time_elapsed)
-                    self.drive.auto_drive(1.0, 0)
+                    self.drive.auto_drive(0.572, 0)
     
                 else:
                     stop([
