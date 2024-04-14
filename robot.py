@@ -121,7 +121,11 @@ class MyRobot(TimedRobot):
         pass
 
     def teleopInit(self):
-        pass
+        global start_time
+        start_time = Timer()
+        start_time.reset()
+        start_time = start_time.getFPGATimestamp()
+        drive.turbo_run = False
         # CameraServer.startAutomaticCapture()
         
     
@@ -130,7 +134,7 @@ class MyRobot(TimedRobot):
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
         sparkmax_safety(self)
 
-        self.drive.drive_robot(self.driver_joystick, current_time)
+        self.drive.drive_robot(self.driver_joystick, start_time)
         self.launch_feed.launchfeed_robot(self.operator_joystick)
         
         # self.drive.drive_robot(self.driver_joystick)

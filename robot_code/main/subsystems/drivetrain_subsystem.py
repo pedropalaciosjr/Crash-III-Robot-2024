@@ -1,9 +1,10 @@
 import rev
 
-from wpilib import event, drive, MotorControllerGroup, Timer
+from wpilib import event, drive, MotorControllerGroup, Timer, SmartDashboard
 from ..initialization import constants as const
 import time
 import commands2
+
 
 class DifferentialDriveSubsystem():
     def __init__(self):
@@ -42,6 +43,11 @@ class DifferentialDriveSubsystem():
         
         self.DIFFERENTIAL_DRIVE = drive.DifferentialDrive(self.LEFT, self.RIGHT)
 
+        self.turbo_run = False
+
+        self.multiplier = .572
+
+        
 
 
     # def drive_robot(self, driver_joystick, drive_class):
@@ -51,19 +57,27 @@ class DifferentialDriveSubsystem():
     #             ), 
     #             drive_class)
     
-    def drive_robot(self, driver_joystick, current_time):
+    def drive_robot(self, driver_joystick, start_time):
         time_elapsed = lambda final, init : final - init
-        multiplier = 0.67
-        self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY()*multiplier, driver_joystick.getRightX()*multiplier)
+        self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY()*self.multiplier, driver_joystick.getRightX()*self.multiplier)
 
         if driver_joystick.getTouchpadPressed():
-            nitro_start = Timer.getFPGATimestamp()
+            self.nitro_start = Timer()
+            self.nitro_start.reset()
+            self.touchpressed_time = self.nitro_start.getFPGATimestamp()
+            print(self.nitro_start.getFPGATimestamp())
+            self.turbo_run = True
+        
 
-            if time_elapsed(nitro_start, current_time) < 5:
-                print("Nitro Enabled!")
-                multiplier = 1
+        if self.turbo_run:
+            self.nitro_time = self.nitro_start.getFPGATimestamp()
+            if time_elapsed(self.nitro_time, self.touchpressed_time) <= 5:
+                SmartDashboard.putBoolean("Turbo Enabled:", self.turbo_run)
+                self.multiplier = 1
             else:
-                multiplier = 0.67
+                self.multiplier = 0.572
+                self.turbo_run = False
+                SmartDashboard.putBoolean("Turbo Enabled:", self.turbo_run)
             
 
 
