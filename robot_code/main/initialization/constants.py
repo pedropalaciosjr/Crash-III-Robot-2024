@@ -28,17 +28,23 @@ class Constants:
 
 
         self.ARM_CURRENT, self.SHOOTER_CURRENT, self.INTAKE_CURRENT = (40, 50, 40)
-        self.ARM_SPEED, self.SHOOTER_SPEED, self.INTAKE_SPEED = (0, 1, 0.25)
+        self.ARM_SPEED, self.SHOOTER_SPEED, self.INTAKE_SPEED = (0, 1, 0.7)
         self.INTAKE_REVERSE_SPEED = -self.INTAKE_SPEED 
 
         self.CLIMBER_CURRENT, self.CLIMBER_SPEED = (40, 0)
 
         self.driver_controller_type, self.operator_controller_type = ("PS4", "PS4")
 
+        # Feedforward Specified Gains
         self.STATIC_GAIN = 0
         self.GRAVITY_GAIN = 0.48
         self.VELOCITY_GAIN = 4.39
         self.ACCELERATION_GAIN = 0.03
+
+        # PID Gains
+        self.K_P = 0
+        self.K_I = 0
+        self.K_D = 0
 
 
     
