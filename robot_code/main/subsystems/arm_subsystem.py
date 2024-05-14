@@ -22,7 +22,7 @@ class ArmSubsystem:
         self.ARM_GROUP = MotorControllerGroup(self.ARM_LEFT, self.ARM_RIGHT)
 
         self.ARM_THROUGHBORE_ENCODER = DutyCycleEncoder(2)
-        self.feedforward_instance = ArmFeedforward(constants.STATIC_GAIN, constants.GRAVITY_GAIN, constants.VELOCITY_GAIN ,constants.ACCELERATION_GAIN)
+        self.feedforward = ArmFeedforward(constants.STATIC_GAIN, constants.GRAVITY_GAIN, constants.VELOCITY_GAIN ,constants.ACCELERATION_GAIN)
 
         # self.ARM_ENCODER.setPositionConversionFactor(360 / 21.5)
 
@@ -32,19 +32,19 @@ class ArmSubsystem:
 
 
     def arm_periodic(self):
-        pass
-        # SmartDashboard.putNumber("Arm Position:", (self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition() * 360))
-        # print(f"Arm Position: {self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition() * 360}")
+        SmartDashboard.putNumber("Arm Position:", (self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition() * 360))
+        print(f"Arm Abs Position: {self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition() * 360}")
+        print(f"Arm Distance: {self.ARM_THROUGHBORE_ENCODER.getDistance()}")
 
-        # self.feedforward = self.feedforward_instance.calculate(degrees_to_radians(self, 40), 2)
-        # print(f"MOTOR VOLTAGE: {self.ARM_LEFT.getBusVoltage()}")
-        # print(self.feedforward)
-        # if (radians_to_degrees(self, self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition()) <= 40):
-        #     self.ARM_GROUP.setVoltage(0)
-        # else:
-        #     self.ARM_GROUP.setVoltage(self.feedforward)
-        # next groups
-            #self.PID.calculate(self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition(), degrees_to_radians(self, 40)) + 
+        self.feedforward_output = self.feedforward.calculate(degrees_to_radians(self, 40), 2)
+        print(f"MOTOR VOLTAGE: {self.ARM_LEFT.getBusVoltage()}")
+
+        print(self.feedforward)
+        if (radians_to_degrees(self, self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition()) <= 40):
+            self.ARM_GROUP.setVoltage(0)
+        else:
+            self.ARM_GROUP.setVoltage(self.PID.calculate(self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition(), degrees_to_radians(self, 40)) + self.feedforward_output)
+    
     # def arm_positions(self, driver_controller):
     #     # Amp Position
     #     if driver_controller.getRightBumper():
