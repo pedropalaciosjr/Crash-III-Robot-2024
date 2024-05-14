@@ -32,18 +32,7 @@ class ArmSubsystem:
 
 
     def arm_periodic(self):
-        SmartDashboard.putNumber("Arm Position:", (self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition() * 360))
-        print(f"Arm Abs Position: {self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition() * 360}")
-        print(f"Arm Distance: {self.ARM_THROUGHBORE_ENCODER.getDistance()}")
-
-        self.feedforward_output = self.feedforward.calculate(degrees_to_radians(self, 40), 2)
-        print(f"MOTOR VOLTAGE: {self.ARM_LEFT.getBusVoltage()}")
-
-        print(self.feedforward)
-        if (radians_to_degrees(self, self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition()) <= 40):
-            self.ARM_GROUP.setVoltage(0)
-        else:
-            self.ARM_GROUP.setVoltage(self.PID.calculate(self.ARM_THROUGHBORE_ENCODER.getAbsolutePosition(), degrees_to_radians(self, 40)) + self.feedforward_output)
+        pass
     
     # def arm_positions(self, driver_controller):
     #     # Amp Position
