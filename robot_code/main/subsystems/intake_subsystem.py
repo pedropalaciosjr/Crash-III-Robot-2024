@@ -18,7 +18,7 @@ class IntakeSubsystem:
         self.INTAKE.burnFlash()
     
 
-    def intakePeriodic(self, operator_controller):
+    def intakePeriodic(self, operator_controller) -> None:
         def ps4_intake(self, operator_controller):
             if (operator_controller.getL1Button()) and (self.INTAKE_SENSOR.get() == True):
                 self.INTAKE.set(self.constants.INTAKE_SPEED)

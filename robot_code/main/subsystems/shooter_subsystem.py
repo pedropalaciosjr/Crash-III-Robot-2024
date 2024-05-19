@@ -17,7 +17,7 @@ class ShooterSubsystem:
 
         self.SHOOTER = MotorControllerGroup(self.SHOOTER_LEFT, self.SHOOTER_RIGHT)
 
-    def shooterPeriodic(self, operator_controller):
+    def shooterPeriodic(self, operator_controller) -> None:
         if isinstance(operator_controller, XboxController):
             self.SHOOTER.set(const.Constants().SHOOTER_SPEED) if operator_controller.getYButton() else self.SHOOTER.set(0)
         else:

@@ -35,11 +35,11 @@ class DifferentialDriveSubsystem:
 
 
 
-    def ps4_drive(self, driver_joystick):
+    def ps4_drive(self, driver_joystick) -> None:
         self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX())
 
-    def xbox_logitech_drive(self, driver_joystick):
+    def xbox_logitech_drive(self, driver_joystick) -> None:
         self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX())
 
-    def auto_drive(self, speed, rotation):
+    def auto_drive(self, speed, rotation) -> None:
         self.DIFFERENTIAL_DRIVE.arcadeDrive(speed, rotation)

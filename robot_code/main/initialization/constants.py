@@ -46,6 +46,10 @@ class Constants:
         self.K_I = 0
         self.K_D = 0
 
+        # Through Bore Encoder Channel Constants
+        self.THROUGH_BORE_A_CHANNEL = 0
+        self.THROUGH_BORE_B_CHANNEL = 1
+
 
     
     def auto_mode(self):

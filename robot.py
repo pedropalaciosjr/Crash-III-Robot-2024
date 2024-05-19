@@ -62,9 +62,8 @@ class MyRobot(TimedRobot):
             self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (XboxController(0))
             self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (XboxController(1))
 
-        def sparkmax_safety():
-            motor_temperatures = []
-            brownout_faults = []
+        def sparkmax_safety() -> None:
+            motor_temperatures, brownout_faults = [], []
             for sparkmax in self.SPARKMAX_CONTROLLERS:
                 motor_temperatures.append((1.8 * sparkmax.getMotorTemperature()) + 32)
                 brownout_faults.append(sparkmax.getFault(rev.CANSparkBase.FaultID.kBrownout))
@@ -101,7 +100,7 @@ class MyRobot(TimedRobot):
                     reportWarning("BROWNOUT DETECTED!")
                     return
         
-        def stop(self, motor_controllers):
+        def stop(self, motor_controllers: list) -> None:
             try:
                 for sparkmax in motor_controllers:
                     sparkmax.stopMotor()
