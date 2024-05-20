@@ -81,21 +81,4 @@ class MyRobot(TimedRobot):
 
         # self.arm.ARM_LEFT.set(self.arm.PID.calculate(encoder.getDistance(), setpoint))
 
-        match self.auto_mode_selected:
-            case self.auto_mode_one:
-                # Drive forward for 2 seconds at half speed
-                if time_elapsed < 2:
-                    print(time_elapsed)
-                    self.drive.auto_drive(1.0, 0)
-    
-                else:
-                    stop([
-                        self.drive.LEFT_FRONT, 
-                        self.drive.LEFT_REAR, 
-                        self.drive.RIGHT_FRONT, 
-                        self.drive.RIGHT_REAR, 
-                    ])
-            case self.auto_mode_two:
-                pass
-            case self.auto_mode_three:
-                pass
+        self.container.autonomous.autonomous(time_elapsed, self.container.stop)

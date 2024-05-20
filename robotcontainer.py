@@ -2,6 +2,7 @@ from robot_code.main.subsystems.arm_subsystem import ArmSubsystem
 from robot_code.main.subsystems.drivetrain_subsystem import DifferentialDriveSubsystem
 from robot_code.main.subsystems.intake_subsystem import IntakeSubsystem
 from robot_code.main.subsystems.shooter_subsystem import ShooterSubsystem
+from robot_code.main.subsystems.autonomous_subsystem import AutonomousSubsystem
 from robot_code.main.initialization.constants import Constants
 from wpilib import (SmartDashboard,
                     reportWarning
@@ -18,6 +19,7 @@ class RobotContainer:
         self.intake = IntakeSubsystem()
         self.shooter = ShooterSubsystem()
         self.constants = Constants()
+        self.autonomous = AutonomousSubsystem()
 
         self.controllers_init()
         self.button_configurations()
