@@ -77,8 +77,6 @@ class MyRobot(TimedRobot):
 
         time_elapsed = time_elapsed(autonomous_periodic, autonomous_start)
 
-        self.sparkmax_safety(self)
-
-        # self.arm.ARM_LEFT.set(self.arm.PID.calculate(encoder.getDistance(), setpoint))
-
         self.container.autonomous.autonomous(time_elapsed, self.container.stop)
+
+        self.container.sparkmax_safety(self)

@@ -73,7 +73,7 @@ class RobotContainer:
         )
     
     def sparkmax_safety(self) -> None:
-        """This function displays motor temperatures and brownout states on motor controllers."""
+        """Displays motor temperatures and brownout states on motor controllers."""
 
         motor_temperatures, brownout_faults = [], []
         for sparkmax in self.SPARKMAX_CONTROLLERS:
@@ -111,7 +111,7 @@ class RobotContainer:
                 return
     
     def stop(self, motor_controllers: list) -> None:
-        """This function invokes the REV stop_motor method on motor controllers passed as an iterable object argument."""
+        """Invokes the REV stop_motor method on motor controllers passed as an iterable object argument."""
 
         try:
             for sparkmax in motor_controllers:
