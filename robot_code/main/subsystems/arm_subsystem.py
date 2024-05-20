@@ -46,7 +46,7 @@ class ArmSubsystem(Subsystem):
 
 
     def arm_periodic(self) -> None:
-        """Implements PID and feedforward control mechanisms"""
+        """Implements PID and feedforward control mechanisms."""
 
         pid_output = self.PID.calculate(self.ARM_THROUGHBORE.getDistance(), degrees_to_radians(self, 40))
         feedforward_output = self.feedforward.calculate(degrees_to_radians(self, 40), 2)
