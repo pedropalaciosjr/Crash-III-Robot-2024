@@ -68,7 +68,7 @@ class RobotContainer:
         )
         self.driver_controller.triangle().whileTrue(
             run(
-                lambda: self.shooter.shooter()
+                lambda: self.shooter.shooter_cmd(self.constants.SHOOTER_SPEED)
             )
         )
     
