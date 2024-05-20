@@ -22,7 +22,7 @@ class Constants:
         self.INTAKE_CAN_ID = 9
         self.CLIMBER_CAN_ID = 10
 
-        self.DIFFERENTIAL_DRIVE_CURRENT = 30
+        self.DIFFERENTIAL_DRIVE_CURRENT = 40
         self.DIFFERENTIAL_AUTONOMOUS_DRIVE_SPEED = 1
         self.DIFFERENTIAL_AUTONOMOUS_ROTATION_SPEED = 1
 
@@ -36,10 +36,10 @@ class Constants:
         self.driver_controller_type, self.operator_controller_type = ("PS4", "PS4")
 
         # Feedforward Specified Gains
-        self.STATIC_GAIN = 0
-        self.GRAVITY_GAIN = 0.48
-        self.VELOCITY_GAIN = 4.39
-        self.ACCELERATION_GAIN = 0.03
+        self.STATIC_GAIN_KS = 0
+        self.GRAVITY_GAIN_KG = 0.48
+        self.VELOCITY_GAIN_KV = 4.39
+        self.ACCELERATION_GAIN_KA = 0.03
 
         # PID Gains
         self.K_P = 0

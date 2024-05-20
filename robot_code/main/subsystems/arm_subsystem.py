@@ -30,13 +30,13 @@ class ArmSubsystem(Subsystem):
         
         self.ARM_THROUGHBORE = Encoder(
             constants.THROUGH_BORE_A_CHANNEL,
-            constants.THROUGH_BORE_CHANNEL_B)
+            constants.THROUGH_BORE_B_CHANNEL)
         
         self.feedforward = ArmFeedforward(
-            constants.STATIC_GAIN,
-            constants.GRAVITY_GAIN,
-            constants.VELOCITY_GAIN,
-            constants.ACCELERATION_GAIN)
+            constants.STATIC_GAIN_KS,
+            constants.GRAVITY_GAIN_KG,
+            constants.VELOCITY_GAIN_KV,
+            constants.ACCELERATION_GAIN_KA)
 
         # self.ARM_ENCODER.setPositionConversionFactor(360 / 21.5)
 
