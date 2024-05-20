@@ -1,9 +1,14 @@
 import rev
 from wpimath.controller import ArmFeedforward, PIDController
 from ..initialization import constants as const
-from wpilib import DutyCycleEncoder, MotorControllerGroup, SmartDashboard, Encoder
+from wpilib import (
+    DutyCycleEncoder,
+    MotorControllerGroup,
+    SmartDashboard,
+    Encoder)
+from commands2 import Subsystem
 
-class ArmSubsystem:
+class ArmSubsystem(Subsystem):
     def __init__(self):
         global degrees_to_radians, radians_to_degrees
         def degrees_to_radians(self, x):

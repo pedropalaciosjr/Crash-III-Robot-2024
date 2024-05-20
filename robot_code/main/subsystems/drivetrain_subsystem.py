@@ -3,8 +3,9 @@ import rev
 from wpilib import event, drive, MotorControllerGroup
 from ..initialization import constants as const
 import time
+from commands2 import Subsystem
 
-class DifferentialDriveSubsystem:
+class DifferentialDriveSubsystem(Subsystem):
     def __init__(self):
         constants_class = const.Constants()
         self.LEFT_FRONT, self.LEFT_REAR = rev.CANSparkMax(constants_class.LEFT_FRONT_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless), rev.CANSparkMax(constants_class.LEFT_REAR_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
@@ -35,8 +36,8 @@ class DifferentialDriveSubsystem:
 
 
 
-    def ps4_drive(self, driver_joystick) -> None:
-        self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX())
+    def ps4_arcade_drive(self, forward: float, rotation: float) -> None:
+        self.DIFFERENTIAL_DRIVE.arcadeDrive(forward, rotation)
 
     def xbox_logitech_drive(self, driver_joystick) -> None:
         self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY(), driver_joystick.getRightX())

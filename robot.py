@@ -57,58 +57,6 @@ class MyRobot(TimedRobot):
 
         SmartDashboard.putData("Autonomous Modes", self.chooser)
 
-        
-        def joystick_init(self, driver_controller_type = "null", operator_controller_type= "null" ):
-            self.driver_joystick = PS4Controller(0) if (driver_controller_type) == "PS4" else (XboxController(0))
-            self.operator_joystick = PS4Controller(1) if (operator_controller_type) == "PS4" else (XboxController(1))
-
-        def sparkmax_safety() -> None:
-            motor_temperatures, brownout_faults = [], []
-            for sparkmax in self.SPARKMAX_CONTROLLERS:
-                motor_temperatures.append((1.8 * sparkmax.getMotorTemperature()) + 32)
-                brownout_faults.append(sparkmax.getFault(rev.CANSparkBase.FaultID.kBrownout))
-            
-            left_front_motor_temperature, left_rear_motor_temperature, right_front_motor_temperature, right_rear_motor_temperature,\
-                arm_left_temperature, arm_right_temperature, shooter_left_temperature, shooter_right_temperature, intake_temperature = motor_temperatures
-            left_front_brownout, left_rear_brownout, right_front_brownout, right_rear_brownout, arm_left_brownout, \
-                 arm_right_brownout, shooter_left_brownout, shooter_right_brownout, intake_brownout = brownout_faults
-            
-            SmartDashboard.putNumber("Left Front Motor Temperature (F)", left_front_motor_temperature)
-            SmartDashboard.putNumber("Left Rear Motor Temperature (F)", left_rear_motor_temperature)
-            SmartDashboard.putNumber("Right Front Motor Temperature (F)", right_front_motor_temperature)
-            SmartDashboard.putNumber("Right Rear Motor Temperature (F)", right_rear_motor_temperature)
-            SmartDashboard.putNumber("Arm Left Motor Temperature (F)", arm_left_temperature)
-            SmartDashboard.putNumber("Arm Right Motor Temperature (F)", arm_right_temperature)
-            SmartDashboard.putNumber("Shooter Left Motor Temperature (F)", shooter_left_temperature)
-            SmartDashboard.putNumber("Shooter Right Motor Temperature (F)", shooter_right_temperature)
-            SmartDashboard.putNumber("Intake Motor Temperature (F)", intake_temperature)
-            # SmartDashboard.putNumber("Climber Right Motor Temperature (F)", climber_temperature)
-
-            SmartDashboard.putBoolean("Left Front Brownout Detected:", left_front_brownout)
-            SmartDashboard.putBoolean("Left Rear Brownout Detected:", left_rear_brownout)
-            SmartDashboard.putBoolean("Right Front Brownout Detected:", right_front_brownout)
-            SmartDashboard.putBoolean("Right Rear Brownout Detected:", right_rear_brownout)
-            SmartDashboard.putBoolean("Arm Left Brownout Detected:", arm_left_brownout)
-            SmartDashboard.putBoolean("Arm Right Brownout Detected:", arm_right_brownout)
-            SmartDashboard.putBoolean("Shooter Left Brownout Detected:", shooter_left_brownout)
-            SmartDashboard.putBoolean("Shooter Right Brownout Detected:", shooter_right_brownout)
-            SmartDashboard.putBoolean("Intake Brownout Detected:", intake_brownout)
-            # SmartDashboard.putBoolean("Climber Brownout Detected:", climber_brownout)
-
-            for state in brownout_faults:
-                if state:
-                    reportWarning("BROWNOUT DETECTED!")
-                    return
-        
-        def stop(self, motor_controllers: list) -> None:
-            try:
-                for sparkmax in motor_controllers:
-                    sparkmax.stopMotor()
-            except (TypeError):
-                print("'stop' function invoked with invalid arguments. This function expects only iterable objects as arguments.")
-            
-            return
-
         sparkmax_safety()
         joystick_init(self, self.constants_class.driver_controller_type, self.constants_class.operator_controller_type)
 
