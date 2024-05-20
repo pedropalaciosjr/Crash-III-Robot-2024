@@ -18,7 +18,7 @@ class IntakeSubsystem:
         self.INTAKE.burnFlash()
     
 
-    def intake_cmd(self, inverted=False) -> None:
+    def intake_cmd(self, inverted: bool = False) -> None:
         if inverted:
             self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED)
         elif not(inverted) and (self.INTAKE_SENSOR.get() == False):

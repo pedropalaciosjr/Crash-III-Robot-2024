@@ -121,7 +121,7 @@ class RobotContainer:
         
         return
     
-    def controllers_init(self, driver_controller_type="null", operator_controller_type="null" ) -> None:
+    def controllers_init(self, driver_controller_type: str = "null", operator_controller_type: str = "null" ) -> None:
         self.driver_controller = CommandPS4Controller(0) if (driver_controller_type.upper() == "PS4") or (driver_controller_type.upper() == "PS5") \
             else (CommandXboxController(0))
         self.operator_controller = CommandPS4Controller(1) if (operator_controller_type.upper() == "PS4") or (operator_controller_type.upper() == "PS5") \
