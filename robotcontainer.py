@@ -29,6 +29,7 @@ class RobotContainer:
             )
         )
 
+        # Motor controller objects storage for stop & controller safety function
         self.SPARKMAX_CONTROLLERS = [
             self.drive.LEFT_FRONT, 
             self.drive.LEFT_REAR, 
@@ -42,14 +43,20 @@ class RobotContainer:
         ]
     
     def button_configurations(self) -> None:
+        """Configures the button bindings for operating controls."""
+        self.shooter.setDefaultCommand(
+            run(
+                lambda: self.shooter.shooter_cmd(0)
+            )
+        )
+        self.intake.setDefaultCommand(
+            run(
+                lambda: self.intake_cmd_stop(self.stop)
+            )
+        )
         self.driver_controller.L1().whileTrue(
             run(
                 lambda: self.intake.intake(False)
-            )
-        )
-        self.driver_controller.L1().whileFalse(
-            run(
-                lambda: self.stop(self.SPARKMAX_CONTROLLERS[8])
             )
         )
         self.driver_controller.R1().whileTrue(
@@ -64,6 +71,8 @@ class RobotContainer:
         )
     
     def sparkmax_safety(self) -> None:
+        """This function displays motor temperatures and brownout states on motor controllers."""
+
         motor_temperatures, brownout_faults = [], []
         for sparkmax in self.SPARKMAX_CONTROLLERS:
             motor_temperatures.append((1.8 * sparkmax.getMotorTemperature()) + 32)
@@ -100,6 +109,8 @@ class RobotContainer:
                 return
     
     def stop(self, motor_controllers: list) -> None:
+        """This function invokes the REV stop_motor method on motor controllers passed as an iterable object argument."""
+
         try:
             for sparkmax in motor_controllers:
                 sparkmax.stopMotor()
@@ -108,7 +119,7 @@ class RobotContainer:
         
         return
     
-    def controllers_init(self, driver_controller_type = "null", operator_controller_type= "null" ) -> None:
+    def controllers_init(self, driver_controller_type="null", operator_controller_type="null" ) -> None:
         self.driver_controller = CommandPS4Controller(0) if (driver_controller_type.upper() == "PS4") or (driver_controller_type.upper() == "PS5") \
             else (CommandXboxController(0))
         self.operator_controller = CommandPS4Controller(1) if (operator_controller_type.upper() == "PS4") or (operator_controller_type.upper() == "PS5") \

@@ -18,7 +18,7 @@ class ShooterSubsystem(Subsystem):
 
         self.SHOOTER = MotorControllerGroup(self.SHOOTER_LEFT, self.SHOOTER_RIGHT)
 
-    def shooter(self) -> None:
-        self.SHOOTER.set(1)
+    def shooter_cmd(self, speed: float) -> None:
+        self.SHOOTER.set(speed)
 
 

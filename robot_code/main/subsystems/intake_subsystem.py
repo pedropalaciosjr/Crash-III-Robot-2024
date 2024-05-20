@@ -18,9 +18,12 @@ class IntakeSubsystem:
         self.INTAKE.burnFlash()
     
 
-    def intake(self, inverted=False) -> None:
+    def intake_cmd(self, inverted=False) -> None:
         self.INTAKE.set(-1) if inverted else self.INTAKE.set(1)
     
+    def intake_stop_cmd(self, stop_function: function) -> None:
+        stop_function([self.INTAKE])
+
     def intakePeriodic(self, operator_controller) -> None:
         def ps4_intake(self, operator_controller):
             if (operator_controller.getL1Button()) and (self.INTAKE_SENSOR.get() == True):

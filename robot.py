@@ -18,33 +18,13 @@ from cscore import CameraServer
 # from commands2 import CommandPS4Controller
 from robot_code.main.initialization.constants import Constants
 from robot_code.main.subsystems import drivetrain_subsystem, arm_subsystem, climber_subsystem, intake_subsystem, shooter_subsystem, autonomous_subsystem
+from robotcontainer import RobotContainer
+from commands2 import CommandScheduler
 
 class MyRobot(TimedRobot):
-    def robotInit(self):
-        global sparkmax_safety
-        global stop
-        global drive
+    def robotInit(self) -> None:
+        self.container = RobotContainer()
 
-        self.drive = drivetrain_subsystem.DifferentialDriveSubsystem()
-        self.arm = arm_subsystem.ArmSubsystem()
-        self.shooter = shooter_subsystem.ShooterSubsystem()
-        self.intake = intake_subsystem.IntakeSubsystem()
-        self.climber = climber_subsystem.ClimberSubsystem()
-        self.auto = autonomous_subsystem.AutonomousSubsystem()
-        self.constants_class = Constants()
-
-        self.SPARKMAX_CONTROLLERS = [
-            self.drive.LEFT_FRONT, 
-            self.drive.LEFT_REAR, 
-            self.drive.RIGHT_FRONT, 
-            self.drive.RIGHT_REAR, 
-            self.arm.ARM_LEFT, 
-            self.arm.ARM_RIGHT,
-            self.shooter.SHOOTER_LEFT,
-            self.shooter.SHOOTER_RIGHT,
-            self.intake.INTAKE,
-            # self.climber.CLIMBER
-        ]
         self.auto_mode_one = "Auto Mode One"
         self.auto_mode_two = "Auto Mode Two"
         self.auto_mode_three = "Auto Mode Three"
@@ -57,19 +37,24 @@ class MyRobot(TimedRobot):
 
         SmartDashboard.putData("Autonomous Modes", self.chooser)
 
-        sparkmax_safety()
-        joystick_init(self, self.constants_class.driver_controller_type, self.constants_class.operator_controller_type)
+        # Camera Initialization & Processing
+        camera = CameraServer.startAutomaticCapture()
+        camera.setResolution(640, 480)
 
-
-
-    def teleopInit(self):
-        CameraServer.startAutomaticCapture()
+        cv_sink = CameraServer.getVideo()
+        cv_source = CameraServer.putVideo("Rectangle", 640, 480)
+    
+    def robotPeriodic(self) -> None:
+        CommandScheduler.getInstance().run()
+   
+    def teleopInit(self) -> None:
+        pass
         
     
-    def teleopPeriodic(self):
+    def teleopPeriodic(self) -> None:
         current_time = Timer.getFPGATimestamp()
         SmartDashboard.putNumber("Robot Runtime (seconds):", current_time)
-        sparkmax_safety()
+        self.container.sparkmax_safety()
         
         self.drive.ps4_drive(self.driver_joystick) if isinstance(self.driver_joystick, PS4Controller) else self.drive.xbox_logitech_drive(self.driver_joystick)
         self.intake.intakePeriodic(self.driver_joystick)
@@ -78,21 +63,21 @@ class MyRobot(TimedRobot):
         # intake_subsystem.IntakeSubsystem.ps4_intake_reverse(self.operator_joystick) if isinstance(self.operator_joystick, PS4Controller) else intake_subsystem.IntakeSubsystem.xbox_intake_reverse(self.operator_joystick)
         
 
-    def autonomousInit(self):
+    def autonomousInit(self) -> None:
         global autonomous_start
         autonomous_start = Timer.getFPGATimestamp()
 
         self.auto_mode_selected = self.chooser.getSelected()
         SmartDashboard.putString("Autonomous Mode:", self.auto_mode_selected)
     
-    def autonomousPeriodic(self):
+    def autonomousPeriodic(self) -> None:
         # Autonomous primary commands
         autonomous_periodic = Timer.getFPGATimestamp()
         time_elapsed = lambda final, init : final - init
 
         time_elapsed = time_elapsed(autonomous_periodic, autonomous_start)
 
-        sparkmax_safety(self)
+        self.sparkmax_safety(self)
 
         # self.arm.ARM_LEFT.set(self.arm.PID.calculate(encoder.getDistance(), setpoint))
 
