@@ -19,7 +19,12 @@ class IntakeSubsystem:
     
 
     def intake_cmd(self, inverted=False) -> None:
-        self.INTAKE.set(-1) if inverted else self.INTAKE.set(1)
+        if inverted:
+            self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED)
+        elif not(inverted) and (self.INTAKE_SENSOR.get() == False):
+            self.INTAKE.set(self.constants.INTAKE_SPEED)
+        else:
+            pass
     
     def intake_stop_cmd(self, stop_function: function) -> None:
         stop_function([self.INTAKE])
