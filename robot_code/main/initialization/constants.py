@@ -10,7 +10,7 @@ class Constants:
 
         self.DIFFERENTIAL_DRIVE_CURRENT = 70
         self.DIFFERENTIAL_AUTONOMOUS_DRIVE_SPEED = 1
-        self.DIFFERENTIAL_NITRO_DRIVE_MULTIPLIER = 1
+        self.DIFFERENTIAL_NITRO_DRIVE_MULTIPLIER = .7
         self.DIFFERENTIAL_AUTONOMOUS_ROTATION_SPEED = 1
 
 
@@ -19,7 +19,7 @@ class Constants:
 
         self.CLIMBER_CURRENT, self.CLIMBER_SPEED = (40, 0)
 
-        self.driver_controller_type, self.operator_controller_type = ("PS4", "PS4")
+        self.driver_controller_type, self.operator_controller_type = ("Logitech", "Logitech")
         self.DRIVER_CONTROLLER_PORT, self.OPERATOR_CONTROLLER_PORT = (0, 1)
 
 

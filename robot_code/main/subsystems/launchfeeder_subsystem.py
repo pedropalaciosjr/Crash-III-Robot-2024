@@ -51,6 +51,20 @@ class LaunchFeederSubsystem():
             else:
                 self.LAUNCH_FEEDER.set(0)
                 self.CLAW.set(0)
+        elif isinstance(operator_controller, XboxController):
+            if (operator_controller.getXButton()):
+                self.LAUNCH_FEEDER.set(-1)
+            elif (operator_controller.getAButton()) and (operator_controller.getBButton()):
+                self.CLAW.set(-.8)
+            elif (operator_controller.getYButton()):
+                self.FEEDER_WHEEL.set(.8)
+            elif (operator_controller.getBButton()):
+                self.LAUNCH_WHEEL.set(1)
+            elif (operator_controller.getAButton()):
+                self.CLAW.set(.8)
+            else:
+                self.LAUNCH_FEEDER.set(0)
+                self.CLAW.set(0)
         else:
             print("Operator controller type set as Xbox or other in constants. Only PS4/PS5 controllers are supported.")
 

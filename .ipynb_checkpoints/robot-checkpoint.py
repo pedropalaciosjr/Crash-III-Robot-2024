@@ -135,7 +135,7 @@ class MyRobot(TimedRobot):
         sparkmax_safety(self)
 
         self.drive.drive_robot(self.driver_joystick, start_time)
-        self.launch_feed.launchfeed_robot(self.driver_joystick)
+        self.launch_feed.launchfeed_robot(self.operator_joystick)
         
         # self.drive.drive_robot(self.driver_joystick)
 

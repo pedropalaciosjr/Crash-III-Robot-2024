@@ -1,6 +1,6 @@
 import rev
 
-from wpilib import event, drive, MotorControllerGroup, Timer, SmartDashboard
+from wpilib import event, drive, MotorControllerGroup, Timer, SmartDashboard, PS4Controller, XboxController
 from ..initialization import constants as const
 import time
 import commands2
@@ -46,6 +46,7 @@ class DifferentialDriveSubsystem():
         self.turbo_run = False
 
         self.multiplier = .572
+        # Original value: .572
 
         
 
@@ -61,23 +62,46 @@ class DifferentialDriveSubsystem():
         time_elapsed = lambda final, init : final - init
         self.DIFFERENTIAL_DRIVE.arcadeDrive(driver_joystick.getLeftY()*self.multiplier, driver_joystick.getRightX()*self.multiplier)
 
-        if driver_joystick.getTouchpadPressed():
-            self.nitro_start = Timer()
-            self.nitro_start.reset()
-            self.touchpressed_time = self.nitro_start.getFPGATimestamp()
-            print(self.nitro_start.getFPGATimestamp())
-            self.turbo_run = True
-        
+        if isinstance(driver_joystick, PS4Controller):
+            if driver_joystick.getTouchpadPressed():
+                self.nitro_start = Timer()
+                self.nitro_start.reset()
+                self.touchpressed_time = self.nitro_start.getFPGATimestamp()
+                print(self.nitro_start.getFPGATimestamp())
+                self.turbo_run = True
+            
 
-        if self.turbo_run:
-            self.nitro_time = self.nitro_start.getFPGATimestamp()
-            if time_elapsed(self.nitro_time, self.touchpressed_time) <= 5:
-                SmartDashboard.putBoolean("Turbo Enabled:", self.turbo_run)
-                self.multiplier = 1
-            else:
-                self.multiplier = 0.572
-                self.turbo_run = False
-                SmartDashboard.putBoolean("Turbo Enabled:", self.turbo_run)
+            if self.turbo_run:
+                self.nitro_time = self.nitro_start.getFPGATimestamp()
+                if time_elapsed(self.nitro_time, self.touchpressed_time) <= 5:
+                    SmartDashboard.putBoolean("Turbo Enabled:", self.turbo_run)
+                    self.multiplier = 0.7
+                else:
+                    self.multiplier = 0.572
+                    # Original value: 0.572
+                    self.turbo_run = False
+                    SmartDashboard.putBoolean("Turbo Enabled:", self.turbo_run)
+        elif isinstance(driver_joystick, XboxController):
+            if driver_joystick.getStartButtonPressed():
+                self.nitro_start = Timer()
+                self.nitro_start.reset()
+                self.touchpressed_time = self.nitro_start.getFPGATimestamp()
+                print(self.nitro_start.getFPGATimestamp())
+                self.turbo_run = True
+            
+
+            if self.turbo_run:
+                self.nitro_time = self.nitro_start.getFPGATimestamp()
+                if time_elapsed(self.nitro_time, self.touchpressed_time) <= 5:
+                    SmartDashboard.putBoolean("Turbo Enabled:", self.turbo_run)
+                    self.multiplier = 0.7
+                else:
+                    self.multiplier = 0.572
+                    # Original value: 0.572
+                    self.turbo_run = False
+                    SmartDashboard.putBoolean("Turbo Enabled:", self.turbo_run)
+        else:
+            print("Error in controller type variable constant.")
             
 
 
