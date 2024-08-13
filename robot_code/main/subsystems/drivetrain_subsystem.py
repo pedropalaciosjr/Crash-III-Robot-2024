@@ -34,8 +34,6 @@ class DifferentialDriveSubsystem(Subsystem):
         
         self.DIFFERENTIAL_DRIVE = drive.DifferentialDrive(self.LEFT, self.RIGHT)
 
-
-
     def ps4_arcade_drive(self, forward: float, rotation: float) -> None:
         self.DIFFERENTIAL_DRIVE.arcadeDrive(forward, rotation)
 

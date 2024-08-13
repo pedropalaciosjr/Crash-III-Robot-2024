@@ -4,9 +4,10 @@ from wpilib import (
 )
 import rev
 from ..initialization import constants as const
+from commands2 import Subsystem
 
 
-class IntakeSubsystem:
+class IntakeSubsystem(Subsystem):
     def __init__(self):
         self.constants = const.Constants()
         self.INTAKE = rev.CANSparkMax(self.constants.INTAKE_CAN_ID, rev.CANSparkLowLevel.MotorType.kBrushless)
@@ -16,17 +17,16 @@ class IntakeSubsystem:
         self.INTAKE_SENSOR = DigitalInput(5)
     
         self.INTAKE.burnFlash()
-    
 
     def intake_cmd(self, inverted: bool = False) -> None:
         if inverted:
             self.INTAKE.set(self.constants.INTAKE_REVERSE_SPEED)
-        elif not(inverted) and (self.INTAKE_SENSOR.get() == False):
+        elif self.INTAKE_SENSOR.get() == True: # Sensor has its True and False states swapped; so in this case, False
             self.INTAKE.set(self.constants.INTAKE_SPEED)
         else:
-            pass
+            self.INTAKE.set(0)
     
-    def intake_stop_cmd(self, stop_function: function) -> None:
+    def intake_stop_cmd(self, stop_function) -> None:
         stop_function([self.INTAKE])
 
     def intakePeriodic(self, operator_controller) -> None:

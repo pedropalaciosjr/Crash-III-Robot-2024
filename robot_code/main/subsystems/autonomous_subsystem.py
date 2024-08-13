@@ -6,7 +6,7 @@ class AutonomousSubsystem(Subsystem):
     def __init__(self):
       pass  
     
-    def autonomous(self, time_elapsed: float, stop_function: function) -> None:
+    def autonomous(self, time_elapsed: float, stop_function) -> None:
         match self.auto_mode_selected:
             case self.auto_mode_one:
                 # Drive forward for 2 seconds at half speed

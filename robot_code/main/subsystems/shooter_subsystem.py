@@ -1,7 +1,7 @@
 import rev
 from ..initialization import constants as const
 from wpilib import MotorControllerGroup, XboxController
-from commands2 import Subsystem
+from commands2 import Subsystem, CommandScheduler
 
 class ShooterSubsystem(Subsystem):
     def __init__(self):

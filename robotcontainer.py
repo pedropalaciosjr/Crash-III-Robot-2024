@@ -8,8 +8,10 @@ from wpilib import (SmartDashboard,
                     reportWarning
                     )
 from commands2.button import CommandPS4Controller, CommandXboxController
-from commands2.cmd import run
+from commands2.cmd import run, runOnce
 import rev
+from typing import Iterable, List
+
 
 class RobotContainer:
     def __init__(self) -> None:
@@ -20,6 +22,7 @@ class RobotContainer:
         self.shooter = ShooterSubsystem()
         self.constants = Constants()
         self.autonomous = AutonomousSubsystem()
+
 
         self.controllers_init()
         self.button_configurations()
@@ -48,26 +51,27 @@ class RobotContainer:
         """Configures the button bindings for operating controls."""
         self.shooter.setDefaultCommand(
             run(
-                lambda: self.shooter.shooter_cmd(0)
+                lambda: self.shooter.shooter_cmd(0),
+                self.shooter
             )
         )
-        self.intake.setDefaultCommand(
+        self.driver_controller.leftBumper().whileTrue(
             run(
-                lambda: self.intake_cmd_stop(self.stop)
+                lambda: self.intake.intake_cmd(False)
             )
         )
-        self.driver_controller.L1().whileTrue(
+        self.driver_controller.rightBumper().whileTrue(
             run(
-                lambda: self.intake.intake(False)
+                lambda: self.intake.intake_cmd(True)
             )
         )
-        self.driver_controller.R1().whileTrue(
-            run(
-                lambda: self.intake.intake(True)
+        self.driver_controller.leftBumper().and_(self.driver_controller.rightBumper()).onFalse(
+            runOnce(
+                lambda: self.intake.intake_stop_cmd(self.stop)
             )
         )
-        self.driver_controller.triangle().whileTrue(
-            run(
+        self.driver_controller.y().whileTrue(
+            runOnce(
                 lambda: self.shooter.shooter_cmd(self.constants.SHOOTER_SPEED)
             )
         )
@@ -110,7 +114,7 @@ class RobotContainer:
                 reportWarning("BROWNOUT DETECTED!")
                 return
     
-    def stop(self, motor_controllers: list) -> None:
+    def stop(self, motor_controllers: Iterable[rev.CANSparkMax]) -> None:
         """Invokes the REV stop_motor method on motor controllers passed as an iterable object argument."""
 
         try:
